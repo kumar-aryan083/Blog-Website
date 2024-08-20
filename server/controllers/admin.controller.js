@@ -1,6 +1,8 @@
 import adminModel from "../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import blogModel from "../models/blog.model.js";
+import commentModel from "../models/comment.model.js";
+import userModel from "../models/user.model.js";
 
 export const register = async(req, res)=>{
     try {
@@ -101,14 +103,66 @@ export const editBlog = async(req, res)=>{
 }
 export const deleteBlog = async(req, res)=>{
     try {
-        console.log("delete blog endpoint")
+        // delete the blog
+        const blog = await blogModel.findOne({_id: req.params.bId});
+        await blogModel.findByIdAndDelete({_id: blog._id});
+
+        // pop the blog from admin document
+        const admin = await adminModel.findOne({_id: req.user.id});
+        admin.blogs.pop(blog._id);
+        await admin.save();
+
+        // Remove the blog from all user's savedBlogs
+        await userModel.updateMany(
+            { savedBlogs: blog._id },
+            { $pull: { savedBlogs: blog._id } }
+        );
+
+        const commentIds = blog.comments.map(comment => comment._id);
+        await commentModel.deleteMany({ _id: { $in: commentIds } });
+        await userModel.updateMany(
+            { comments: { $in: commentIds } },
+            { $pull: { comments: { $in: commentIds } } }
+        );
+
+        const blogs = await blogModel.find();
+
+        res.status(200).json({
+            success: true,
+            message: "blog deleted successfully",
+            data: blogs
+        });
     } catch (error) {
         console.log(error);
     }
 }
-export const deleteComment = (req, res)=>{
+export const deleteComment = async(req, res)=>{
     try {
-        console.log("admin end point")
+        // Logic for this controller
+        const commentData = await commentModel.findOne({ _id: req.params.cId });
+        await commentModel.findByIdAndDelete(commentData._id);
+
+        const blog = await blogModel.findOne({ _id: commentData.blogId });
+        blog.comments.pop(commentData._id);
+        await blog.save();
+
+        const user = await userModel.findOne({ _id: commentData.userId });
+        user.comments.pop(commentData._id);
+        await user.save();
+
+        const populatedComments = (await blog.populate('comments')).comments
+        if(populatedComments){
+            res.status(200).json({
+                success: true,
+                message: "comment deleted successfully",
+                comments: populatedComments
+            })
+        }else{
+            res.status(200).json({
+                success: true,
+                message: "there are no comments to show"
+            })
+        }
     } catch (error) {
         console.log(error);
     }

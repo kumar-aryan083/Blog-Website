@@ -120,7 +120,7 @@ export const deleteComment = async (req, res) => {
         user.comments.pop(commentData._id);
         await user.save();
 
-        const populatedComments = (await blog.comments.populate('comments')).comments
+        const populatedComments = (await blog.populate('comments')).comments
         if(populatedComments){
             res.status(200).json({
                 success: true,
