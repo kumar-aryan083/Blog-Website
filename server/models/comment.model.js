@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const commentSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        ref: "User"
     },
     commentContent: {
         type: String,

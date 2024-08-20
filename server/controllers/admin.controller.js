@@ -49,14 +49,14 @@ export const login = async(req, res)=>{
                 token: token
             })
         }
-        console.log("admin end point")
     } catch (error) {
         console.log(error);
     }
 }
 export const addBlog = async(req, res)=>{
     try {
-        const newBlog = new blogModel({...req.body});
+        // console.log("hit")
+        const newBlog = new blogModel({...req.body, adminId: req.user.id});
         await newBlog.save();
 
         const admin = await adminModel.findOne({_id: req.user.id});
