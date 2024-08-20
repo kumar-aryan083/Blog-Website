@@ -154,34 +154,122 @@ export const saveBlog = async (req, res) => {
         console.log(error);
     }
 }
-export const likeComment = (req, res) => {
+export const likeComment = async(req, res) => {
     try {
         // Logic for this controller
-        console.log("user endpoint ok");
+        const comment = await commentModel.findOne({_id: req.params.cId});
+        const isDislikeBefore = comment.dislikes.some(dislikeId => dislikeId.toString()===req.user.id);
+        if(isDislikeBefore){
+            comment.dislikes.pop(req.user.id);
+            await comment.save();
+        }
+        const isLikedBefore = comment.likes.some(likesId => likesId.toString() === req.user.id);
+        if(isLikedBefore){
+            res.status(401).json({
+                success: false,
+                message: "already liked before"
+            })
+        }else{
+            comment.likes.push(req.user.id);
+            await comment.save();
+            const comments = (await blogModel.findOne({ _id: comment.blogId }).populate('comments')).comments;
+            res.status(200).json({
+                success: true,
+                message: 'Liked successfully',
+                comments: comments
+            })
+        }
     } catch (error) {
         console.log(error);
     }
 }
-export const disLikeComment = (req, res) => {
+export const disLikeComment = async(req, res) => {
     try {
         // Logic for this controller
-        console.log("user endpoint ok");
+        const comment = await commentModel.findOne({_id: req.params.cId});
+        const isLikeBefore = comment.likes.some(likeId => likeId.toString()===req.user.id);
+        if(isLikeBefore){
+            comment.likes.pop(req.user.id);
+            await comment.save();
+        }
+        const isdislikedBefore = comment.dislikes.some(dislikesId => dislikesId.toString() === req.user.id);
+        if(isdislikedBefore){
+            res.status(401).json({
+                success: false,
+                message: "already disliked before"
+            })
+        }else{
+            comment.dislikes.push(req.user.id);
+            await comment.save();
+            const comments = (await blogModel.findOne({ _id: comment.blogId }).populate('comments')).comments;
+            res.status(200).json({
+                success: true,
+                message: 'Liked successfully',
+                comments: comments
+            })
+        }
     } catch (error) {
         console.log(error);
     }
 }
-export const likeBlog = (req, res) => {
+export const likeBlog = async(req, res) => {
     try {
         // Logic for this controller
-        console.log("user endpoint ok");
+        const blog = await blogModel.findOne({_id: req.params.bId});
+        const isdislikeBefore = blog.dislikes.some(dislikeId => dislikeId.toString()===req.user.id);
+        if(isdislikeBefore){
+            blog.dislikes.pop(req.user.id);
+            await blog.save();
+        }
+        const isLikedBefore = blog.likes.some(likeId => likeId.toString()===req.user.id);
+        if(isLikedBefore){
+            res.status(401).json({
+                success: false, 
+                message: "blog already liked"
+            })
+        }else{
+            blog.likes.push(req.user.id);
+            await blog.save();
+
+            const blogs = await blogModel.find();
+
+            res.status(200).json({
+                success: true,
+                message: "blog has been liked",
+                blogs: blogs
+            })
+        }
     } catch (error) {
         console.log(error);
     }
 }
-export const disLikeBlog = (req, res) => {
+export const disLikeBlog = async(req, res) => {
     try {
         // Logic for this controller
-        console.log("user endpoint ok");
+        const blog = await blogModel.findOne({_id: req.params.bId});
+        const islikeBefore = blog.likes.some(likeId => likeId.toString()===req.user.id);
+        if(islikeBefore){
+            blog.likes.pop(req.user.id);
+            await blog.save();
+        }
+        const isdislikedBefore = blog.dislikes.some(dislikeId => dislikeId.toString()===req.user.id);
+        if(isdislikedBefore){
+            res.status(401).json({
+                success: false, 
+                message: "blog already disliked"
+            })
+        }else{
+            blog.dislikes.push(req.user.id);
+            await blog.save();
+
+            const blogs = await blogModel.find();
+
+            res.status(200).json({
+                success: true,
+                message: "blog has been disliked",
+                blogs: blogs
+            })
+        }
     } catch (error) {
         console.log(error);
     }
