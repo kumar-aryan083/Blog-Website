@@ -37,7 +37,13 @@ export const register = async(req, res)=>{
 }
 export const login = async(req, res)=>{
     try {
-        const existingAdmin = await adminModel.findOne({username: req.body.username});
+        const existingAdmin = await adminModel.findOne({
+            $or: [
+                {username: req.body.id},
+                {email: req.body.id},
+                {phone: req.body.id}
+            ]
+        });
         if(!existingAdmin){
             res.status(404).json({
                 success: false,

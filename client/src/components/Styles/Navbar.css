@@ -4,6 +4,8 @@
     justify-content: space-between;
     padding: 20px 30px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.269);
+    position: fixed;
+    width: 100%;
 }
 .nav-ul{
     display: flex;
@@ -28,35 +30,37 @@
 }
 .btn-one{
     padding: 5px 30px;
-    background-color: green;
+    background-color: rgb(6, 209, 6);
     border-radius: 100px;
     user-select: none;
     cursor: pointer;
     text-transform: capitalize;
     display: flex;
     gap: 10px;
+    transition: all 0.3s;
 }
 .btn-one>i{
     margin: auto 0;
 }
 .btn-one:hover{
-    background-color: rgb(7, 109, 7);
+    background-color: rgb(13, 172, 13);
 }
 .btn-two{
     display: flex;
     gap: 10px;
     padding: 5px 30px;
-    background-color: rgb(226, 55, 55);
+    background-color: rgb(255, 75, 75);
     border-radius: 100px;
     user-select: none;
     cursor: pointer;
     text-transform: capitalize;
+    transition: all 0.3s;
 }
 .btn-two>i{
     margin: auto 0;
 }
 .btn-two:hover{
-    background-color: rgb(172, 34, 34);
+    background-color: rgb(222, 57, 57);
 }
 .bgr{
     display: none;
