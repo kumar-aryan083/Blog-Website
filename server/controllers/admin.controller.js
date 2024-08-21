@@ -6,6 +6,7 @@ import userModel from "../models/user.model.js";
 
 export const register = async(req, res)=>{
     try {
+        // console.log("hit")
         const existingAdmin = await adminModel.findOne({username: req.body.username})
         if(!existingAdmin){
             const newAdmin = new adminModel({...req.body});
@@ -37,6 +38,7 @@ export const register = async(req, res)=>{
 }
 export const login = async(req, res)=>{
     try {
+        // console.log("hit")
         const existingAdmin = await adminModel.findOne({
             $or: [
                 {username: req.body.id},
@@ -54,6 +56,7 @@ export const login = async(req, res)=>{
             const {password, __v, ...others} = existingAdmin._doc;
             res.cookie("token", token, {httpOnly: true}).status(200).json({
                 ...others,
+                message: "Logged in successfully",
                 token: token
             })
         }

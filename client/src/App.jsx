@@ -23,8 +23,8 @@ const App = () => {
       <div className="full-body-wrapp">
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/admin/login' element={<Login />} />
-          <Route path='/admin/register' element={<Register />} />
+          <Route path='/admin/login' element={<Login handleAlert={handleAlert}/>} />
+          <Route path='/admin/register' element={<Register handleAlert={handleAlert}/>} />
           <Route path='/admin/:username/profile' element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/*' element={<Home />} />
