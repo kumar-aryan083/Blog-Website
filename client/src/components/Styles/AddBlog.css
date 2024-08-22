@@ -1,0 +1,38 @@
+.full-add-blog{
+    width: calc(100vw - 300px);margin: 20px; 
+}
+.add-blog-btn{
+    margin: auto 0;
+    padding: 5px 10px;
+    background-color: green;
+    color: white;
+    font-weight: 500;
+    user-select: none;
+    cursor: pointer;
+}
+.add-blog-btn:hover{
+    background-color: rgb(5, 83, 5);
+    transition: all 0.3s;
+}
+.heading-add-blog{
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.63);
+}
+.add-blog-form{
+    padding-top: 20px;
+}
+.add-blog-form>form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-input{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-input>input{
+    padding: 10px 8px;
+}

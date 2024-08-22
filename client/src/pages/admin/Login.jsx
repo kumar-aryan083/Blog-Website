@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../Styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { setLocal } from '../../utils/setValues.js';
 
-const Login = ({handleAlert, onLogin}) => {
+const Login = ({handleAlert, onLogin, user}) => {
   const [formData, setFormData] = useState({
     id: "",
     password: ""
   })
   const nav = useNavigate();
+  useEffect(() => {
+    document.title = "Admin | Login"
+    if(user){
+      nav(`/admin/${user.username}/profile`);
+    }
+  }, [])
   const handleChange = (e)=>{
     setFormData({
       ...formData,

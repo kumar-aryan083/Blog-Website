@@ -7,6 +7,8 @@ import Login from './pages/admin/Login';
 import Register from './pages/admin/Register';
 import { handleLogout } from './utils/setValues';
 import Profile from './pages/admin/Profile';
+import Dashboard from './pages/admin/Dashboard';
+import AddBlog from './components/AddBlog';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -33,9 +35,10 @@ const App = () => {
       <div className="full-body-wrapp">
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/admin/login' element={<Login handleAlert={handleAlert} onLogin={settingUser}/>} />
-          <Route path='/admin/register' element={<Register handleAlert={handleAlert} onRegister={settingUser}/>} />
+          <Route path='/admin/login' element={<Login handleAlert={handleAlert} onLogin={settingUser} user = {user}/>} />
+          <Route path='/admin/register' element={<Register handleAlert={handleAlert} onRegister={settingUser} user={user}/>} />
           <Route path='/admin/:username/profile' element={<Profile />} />
+          <Route path='/admin/dashboard' element={<Dashboard user={user}/>} />
           <Route path='/about' element={<About />} />
           <Route path='/*' element={<Home />} />
         </Routes>

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../Styles/Register.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { setLocal } from '../../utils/setValues';
 
-const Register = ({handleAlert, onRegister}) => {
+const Register = ({handleAlert, onRegister, user}) => {
   const nav = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -20,6 +20,13 @@ const Register = ({handleAlert, onRegister}) => {
       [e.target.name]: e.target.value
     })
   }
+
+  useEffect(()=>{
+    document.title = "Admin | Register";
+    if(user){
+      nav(`/admin/${user.username}/profile`);
+    }
+  },[])
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
