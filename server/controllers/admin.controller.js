@@ -176,3 +176,21 @@ export const deleteComment = async(req, res)=>{
         console.log(error);
     }
 }
+export const validate = async(req, res)=>{
+    try {
+        const isAdmin = await adminModel.findOne({_id: req.user.id});
+        if(isAdmin){
+            res.status(200).json({
+                success: true, 
+                message: "is admin",
+            })
+        }else{
+            res.status(404).json({
+                success: false,
+                message: "not admin"
+            })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

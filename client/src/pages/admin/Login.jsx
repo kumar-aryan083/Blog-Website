@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import '../Styles/Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { setLocal } from '../../utils/setValues.js';
 
-const Login = ({handleAlert}) => {
+const Login = ({handleAlert, onLogin}) => {
   const [formData, setFormData] = useState({
     id: "",
     password: ""
   })
-
+  const nav = useNavigate();
   const handleChange = (e)=>{
     setFormData({
       ...formData,
@@ -18,7 +19,7 @@ const Login = ({handleAlert}) => {
   const handleSubmit = async(e)=>{
     e.preventDefault();
     // console.log(formData);
-    const res = await fetch("http://localhost:9000/api/admin/login", {
+    const res = await fetch("/api/admin/login", {
       method: "POST",
       headers:{
         "Content-Type": "application/json"
@@ -27,8 +28,11 @@ const Login = ({handleAlert}) => {
     });
     const data = await res.json();
     if(res.ok){
-      // console.log(data.token)
       handleAlert(data.message);
+      const {token, ...others} = data;
+      setLocal(others, data.token);
+      onLogin();
+      nav('/');
     }else{
       handleAlert(data.message);
     }

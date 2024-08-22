@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../Styles/Register.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { setLocal } from '../../utils/setValues';
 
-const Register = ({handleAlert}) => {
+const Register = ({handleAlert, onRegister}) => {
+  const nav = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -23,7 +25,7 @@ const Register = ({handleAlert}) => {
     e.preventDefault();
     // console.log(formData);
     const {cnfPassword, ...others} = formData;
-    const res = await fetch("http://localhost:9000/api/admin/register", {
+    const res = await fetch("/api/admin/register", {
       method: "POST",
       headers:{
         "Content-Type": "application/json"
@@ -32,7 +34,11 @@ const Register = ({handleAlert}) => {
     });
     const data = await res.json();
     if(res.ok){
+      const {token, ...others} = data;
       handleAlert(data.message);
+      setLocal(others, data.token);
+      onRegister();
+      nav('/');
     }else{
       handleAlert(data.message);
     }

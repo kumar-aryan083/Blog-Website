@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import About from './pages/About';
 import Login from './pages/admin/Login';
 import Register from './pages/admin/Register';
+import { handleLogout } from './utils/setValues';
+import Profile from './pages/admin/Profile';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -16,16 +18,24 @@ const App = () => {
   const handleAlert = (msg) => {
     setMessage(msg);
   }
+  const handleOut = () => {
+    handleLogout()
+    setUser(null);
+  }
+  
+  const settingUser = ()=>{
+    setUser(JSON.parse(localStorage.getItem('user')));
+  }
 
   return (
     <>
-      <Navbar user={user} showAlert={message} handleAlert={handleAlert} />
+      <Navbar user={user} showAlert={message} handleAlert={handleAlert} logout = {handleOut}/>
       <div className="full-body-wrapp">
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/admin/login' element={<Login handleAlert={handleAlert}/>} />
-          <Route path='/admin/register' element={<Register handleAlert={handleAlert}/>} />
-          <Route path='/admin/:username/profile' element={<Home />} />
+          <Route path='/admin/login' element={<Login handleAlert={handleAlert} onLogin={settingUser}/>} />
+          <Route path='/admin/register' element={<Register handleAlert={handleAlert} onRegister={settingUser}/>} />
+          <Route path='/admin/:username/profile' element={<Profile />} />
           <Route path='/about' element={<About />} />
           <Route path='/*' element={<Home />} />
         </Routes>
