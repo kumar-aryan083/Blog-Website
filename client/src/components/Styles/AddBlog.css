@@ -1,16 +1,22 @@
 .full-add-blog{
-    width: calc(100vw - 300px);margin: 20px; 
+    margin: 20px; 
+    position: relative;
 }
-.add-blog-btn{
+.add-blog-form>form>input:last-child{
     margin: auto 0;
-    padding: 5px 10px;
+    padding: 10px 20px;
     background-color: green;
     color: white;
     font-weight: 500;
     user-select: none;
     cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border: 0;
+    outline: none;
 }
-.add-blog-btn:hover{
+.add-blog-form>form>input:last-child:hover{
     background-color: rgb(5, 83, 5);
     transition: all 0.3s;
 }
@@ -35,4 +41,16 @@
 }
 .form-input>input{
     padding: 10px 8px;
+}
+.file-inpt>input{
+    border: 1px solid rgba(0, 0, 0, 0.263);
+    width: fit-content;
+    padding: 0 0;
+    border-radius: 10px;
+}
+.file-inpt>input::-webkit-file-upload-button{
+    padding: 5px 10px;
+    background-color: rgb(210, 210, 210);
+    outline: none;
+    border: 0;
 }

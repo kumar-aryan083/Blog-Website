@@ -37,8 +37,8 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/admin/login' element={<Login handleAlert={handleAlert} onLogin={settingUser} user = {user}/>} />
           <Route path='/admin/register' element={<Register handleAlert={handleAlert} onRegister={settingUser} user={user}/>} />
-          <Route path='/admin/:username/profile' element={<Profile />} />
-          <Route path='/admin/dashboard' element={<Dashboard user={user}/>} />
+          <Route path='/admin/:username/profile' element={<Profile />} /> 
+          <Route path='/admin/dashboard' element={<Dashboard user={user} handleAlert={handleAlert} />} />
           <Route path='/about' element={<About />} />
           <Route path='/*' element={<Home />} />
         </Routes>

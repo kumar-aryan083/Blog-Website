@@ -4,7 +4,7 @@ import '../Styles/Dash.css'
 import DashHome from '../../components/DashHome';
 import AddBlog from '../../components/AddBlog';
 
-const Dashboard = () => {
+const Dashboard = ({handleAlert}) => {
     const [number, setNumber] = useState("1");
 
     const handleContent = (pageNo) => {
@@ -16,7 +16,7 @@ const Dashboard = () => {
             case "1":
                 return <DashHome/>;
             case "2":
-                return <AddBlog/>;
+                return <AddBlog handleAlert={handleAlert} />;
             case "3":
                 return <div>Content for Page 3</div>;
             case "4":
