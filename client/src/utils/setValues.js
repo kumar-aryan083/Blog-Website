@@ -23,11 +23,14 @@ export const checkValidation = async()=>{
             method: "GET",
             headers:{
                 "Content-Type": "application/json",
-                token: JSON.stringify(localStorage.getItem("token"))
+                token: localStorage.getItem("token")
             }
         });
-        const data = res.json();
-        return data.success;
+        const data = await res.json();
+        if(res.ok){
+            // console.log(data.success);
+            return data.success;
+        }
     } catch (error) {
         console.log(error);
     }

@@ -3,7 +3,7 @@ import './Styles/AddBlog.css'
 import { Editor } from '@tinymce/tinymce-react';
 import { useNavigate } from 'react-router-dom';
 
-const AddBlog = ({handleAlert}) => {
+const AddBlog = ({handleAlert, onSubmit}) => {
     const [blogData, setBlogData] = useState({
         title: "",
         description: "",
@@ -41,6 +41,7 @@ const AddBlog = ({handleAlert}) => {
         })
         const data = await res.json();
         if(res.ok){
+            onSubmit("1");
             handleAlert(data.message);
         }else{
             handleAlert(data.message);
