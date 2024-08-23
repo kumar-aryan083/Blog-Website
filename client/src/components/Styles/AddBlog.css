@@ -54,3 +54,10 @@
     outline: none;
     border: 0;
 }
+
+.showUploading{
+    display: none;
+}
+.showUploaded{
+    display: none;
+}

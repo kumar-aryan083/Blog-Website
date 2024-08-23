@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import './Styles/AddBlog.css'
 import { Editor } from '@tinymce/tinymce-react';
 import { useNavigate } from 'react-router-dom';
+import app from '../firebase';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const AddBlog = ({handleAlert, onSubmit}) => {
     const [blogData, setBlogData] = useState({
@@ -11,9 +13,9 @@ const AddBlog = ({handleAlert, onSubmit}) => {
         image: "",
         content: ""
     });
-
+    const [imgPerc, setImgPerc] = useState(0);
     const editorRef = useRef(null);
-
+    const imageRef = useRef(null);
     const handleChange = (e) => {
         setBlogData({
             ...blogData,
@@ -47,6 +49,48 @@ const AddBlog = ({handleAlert, onSubmit}) => {
             handleAlert(data.message);
         }
     }
+    useEffect(() => {
+        if(imgPerc === 100){
+            document.querySelector('.showUploading').style.display = 'none'
+            document.querySelector('.showUploaded').style.display = 'block'
+        }
+    }, [imgPerc])
+
+    const handleImageUpload = () => {
+        const file = imageRef.current.files[0];
+        if (file) {
+            const storage = getStorage(app);
+            const fileName = `${new Date().getTime()}_${file.name}`;
+            const storageRef = ref(storage, `blogImage/${fileName}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    switch (snapshot.state) {
+                        case "paused":
+                            console.log("Upload is paused");
+                            break;
+                        case "running":
+                            setImgPerc(Math.round(progress));
+                            document.querySelector('.showUploading').style.display = 'block'
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                (error) => {
+                    console.error('Upload failed:', error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        setBlogData({...blogData, image : downloadURL})
+                    });
+                }
+            );
+        }
+    };
+
 
     useEffect(() => {
         document.title = "Add New Blog | TechBlog"
@@ -77,12 +121,11 @@ const AddBlog = ({handleAlert, onSubmit}) => {
                         </div>
                         <div className="form-input file-inpt">
                             <label htmlFor="image">Image:</label>
-                            <input type="file" name="image"
-                                onChange={(e) => setBlogData({
-                                    ...blogData,
-                                    image: e.target.files[0] // Assuming a single file input
-                                })} />
+                            <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif"
+                                onChange={handleImageUpload} ref={imageRef} id = "image" required/>
                         </div>
+                        <p className='showUploading'>Uploading: {imgPerc}%</p>
+                        <p className='showUploaded'>Uploaded: {imgPerc}%</p>
                         <label htmlFor="content">Content: </label>
                         <Editor
                             apiKey='cen6pw58w47qzqvolhnhn1l5xtuxtnqg49kopee4ld29cet1'
@@ -92,16 +135,8 @@ const AddBlog = ({handleAlert, onSubmit}) => {
                             onEditorChange={handleEditorChange}
                             init={{
                                 height: 500,
-                                menubar: false,
-                                plugins: [
-                                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                                ],
-                                toolbar: 'undo redo | blocks | ' +
-                                    'bold italic forecolor | alignleft aligncenter ' +
-                                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                                    'removeformat | help',
+                                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+                                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
                         />
