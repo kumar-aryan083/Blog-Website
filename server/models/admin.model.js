@@ -21,7 +21,12 @@ const adminSchema = mongoose.Schema({
     },
     otp:{
         type: String,
-    }, 
+    },
+    verified: {
+        type: Boolean, 
+        enum: [true, false],
+        default: false
+    },
     phone: {
         type: String,
         required: true

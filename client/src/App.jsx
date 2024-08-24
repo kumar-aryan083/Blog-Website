@@ -24,23 +24,69 @@ const App = () => {
     handleLogout()
     setUser(null);
   }
-  
-  const settingUser = ()=>{
+
+  const settingUser = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }
 
   return (
     <>
-      <Navbar user={user} showAlert={message} handleAlert={handleAlert} logout = {handleOut}/>
+      <Navbar user={user} showAlert={message} handleAlert={handleAlert} logout={handleOut} />
       <div className="full-body-wrapp">
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/admin/login' element={<Login handleAlert={handleAlert} onLogin={settingUser} user = {user}/>} />
-          <Route path='/admin/register' element={<Register handleAlert={handleAlert} onRegister={settingUser} user={user}/>} />
-          <Route path='/admin/:username/profile' element={<Profile />} /> 
-          <Route path='/admin/dashboard' element={<Dashboard user={user} handleAlert={handleAlert} />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/*' element={<Home />} />
+          <Route
+            path='/'
+            element={
+              <Home
+              />
+            }
+          />
+          <Route
+            path='/admin/login'
+            element={
+              <Login
+                handleAlert={handleAlert}
+                onLogin={settingUser}
+                user={user}
+              />}
+          />
+          <Route
+            path='/admin/register'
+            element={
+              <Register
+                handleAlert={handleAlert}
+                onRegister={settingUser}
+                user={user}
+              />}
+          />
+          <Route
+            path='/admin/:username/profile'
+            element={
+              <Profile />
+            }
+          />
+          <Route
+            path='/admin/dashboard'
+            element={
+              <Dashboard
+                user={user}
+                handleAlert={handleAlert}
+              />
+            }
+          />
+          <Route
+            path='/about'
+            element={
+              <About
+              />
+            }
+          />
+          <Route
+            path='/*'
+            element={
+              <Home />
+            }
+          />
         </Routes>
       </div>
     </>

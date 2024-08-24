@@ -13,7 +13,7 @@ const Register = ({handleAlert, onRegister, user}) => {
     password: "",
     cnfPassword: ""
   })
-
+  const [otp, setOtp] = useState('');
   const handleChange = (e)=>{
     setFormData({
       ...formData,
@@ -42,15 +42,18 @@ const Register = ({handleAlert, onRegister, user}) => {
     const data = await res.json();
     if(res.ok){
       const {token, ...others} = data;
-      handleAlert(data.message);
-      setLocal(others, data.token);
-      onRegister();
-      nav('/');
+      document.querySelector('.full-otp-popup').style.display = 'flex';
     }else{
       handleAlert(data.message);
     }
   }
-
+  const handleOtpChange = (e) => {
+    setOtp(e.target.value);
+  }
+  const handleOtpSubmit = (e)=>{
+    e.preventDefault();
+    console.log(otp);
+  }
   return (
     <>
       <div className="full-register-page">
@@ -75,6 +78,16 @@ const Register = ({handleAlert, onRegister, user}) => {
                     </form>
                 </div>
             </div>
+        </div>
+      </div>
+      <div className="full-otp-popup">
+        <div className="otp-pop-card">
+          <h1>Enter Your OTP:</h1>
+          <p>OTP sent on mail. Check Your mail.</p>
+          <form onSubmit={handleOtpSubmit}>
+            <input type="text" value={otp} onChange={handleOtpChange} placeholder='Enter Your OTP'/>
+            <input type="submit" value="Submit OTP" />
+          </form>
         </div>
       </div>
     </>
