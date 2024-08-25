@@ -34,11 +34,11 @@ const Login = ({handleAlert, onLogin, user}) => {
     });
     const data = await res.json();
     if(res.ok){
-      handleAlert(data.message);
       const {token, ...others} = data;
       setLocal(others, data.token);
       onLogin();
-      nav('/');
+      nav('/admin/dashboard');
+      handleAlert(data.message);
     }else{
       handleAlert(data.message);
     }

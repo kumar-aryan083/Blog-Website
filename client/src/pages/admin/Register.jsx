@@ -50,9 +50,24 @@ const Register = ({handleAlert, onRegister, user}) => {
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
   }
-  const handleOtpSubmit = (e)=>{
+  const handleOtpSubmit = async(e)=>{
     e.preventDefault();
     console.log(otp);
+    const res = await fetch("/api/admin/verify-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        otp: otp
+      },
+      body: JSON.stringify(formData)
+    });
+    const data = await res.json();
+    if(res.ok){
+      nav('/admin/login');
+      handleAlert(data.message)
+    }else{
+      handleAlert(data.message)
+    }
   }
   return (
     <>

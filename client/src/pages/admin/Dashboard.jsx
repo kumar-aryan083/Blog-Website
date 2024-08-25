@@ -20,7 +20,6 @@ const Dashboard = ({ handleAlert, user }) => {
             }
         }
         verifyAdmin();
-        handleAlert('Admin Logged Out Successfully') 
     }, [user])
 
     const handleContent = (pageNo) => {

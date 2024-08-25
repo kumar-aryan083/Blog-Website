@@ -4,6 +4,7 @@ import blogModel from "../models/blog.model.js";
 import commentModel from "../models/comment.model.js";
 import userModel from "../models/user.model.js";
 import nodemailer from 'nodemailer';
+import bcrypt from 'bcrypt';
 
 export const register = async (req, res) => {
     try {
@@ -22,7 +23,9 @@ export const register = async (req, res) => {
                 const randomIdx = Math.floor(Math.random() * allChar.length);
                 otp += allChar[randomIdx];
             }
-            const newAdmin = new adminModel({ ...req.body, otp });
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.password, salt);
+            const newAdmin = new adminModel({ ...req.body, password: hash, otp });
             await newAdmin.save();
             if (newAdmin) {
                 const transporter = nodemailer.createTransport({
@@ -85,18 +88,25 @@ export const login = async (req, res) => {
                 message: "user doesn't exists"
             })
         } else {
-            if (existingAdmin.verified) {
-                const token = jwt.sign({ id: existingAdmin._id }, process.env.JWT_SECRET);
-                const { password, __v, ...others } = existingAdmin._doc;
-                res.cookie("token", token, { httpOnly: true }).status(200).json({
-                    ...others,
-                    message: "Logged in successfully",
-                    token: token
-                })
-            } else {
-                res.status(403).json({
+            if(bcrypt.compareSync(req.body.password, existingAdmin.password)){
+                if (existingAdmin.verified) {
+                    const token = jwt.sign({ id: existingAdmin._id }, process.env.JWT_SECRET);
+                    const { password, __v, ...others } = existingAdmin._doc;
+                    res.cookie("token", token, { httpOnly: true }).status(200).json({
+                        ...others,
+                        message: "Logged in successfully",
+                        token: token
+                    })
+                } else {
+                    res.status(403).json({
+                        success: false,
+                        message: "Please verify your email"
+                    })
+                }
+            }else{
+                res.status(400).json({
                     success: false,
-                    message: "Please verify your email"
+                    message: "Incorrect password"
                 })
             }
         }
@@ -232,5 +242,18 @@ export const validate = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+export const verifyOtp = async (req, res)=>{
+    const admin = await adminModel.findOne({username: req.body.username});
+    if (admin && admin.otp === req.headers.otp) {
+        // Update the `verified` field to true
+        admin.verified = true;
+        await admin.save();
+
+        // Respond with a success message
+        res.status(200).json({ message: 'OTP verified successfully.', verified: true });
+    }else{
+        res.status(400).json({ message: 'Invalid OTP.', verified: false });
     }
 }
