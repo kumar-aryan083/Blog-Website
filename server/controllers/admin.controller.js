@@ -2,6 +2,7 @@ import adminModel from "../models/admin.model.js";
 import jwt from "jsonwebtoken";
 import blogModel from "../models/blog.model.js";
 import commentModel from "../models/comment.model.js";
+import categoryModel from "../models/category.model.js";
 import userModel from "../models/user.model.js";
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
@@ -117,9 +118,11 @@ export const login = async (req, res) => {
 export const addBlog = async (req, res) => {
     try {
         // console.log("hit")
-        const newBlog = new blogModel({ ...req.body, adminId: req.user.id });
+        const newBlog = new blogModel({ ...req.body, adminId: req.user.id, cat: req.body.category });
         await newBlog.save();
-
+        const cat = await categoryModel.findOne({ _id: req.body.category });
+        cat.blogs.push(newBlog._id);
+        await cat.save();
         const admin = await adminModel.findOne({ _id: req.user.id });
         admin.blogs.push(newBlog._id);
         await admin.save();

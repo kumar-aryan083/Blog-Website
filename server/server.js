@@ -5,6 +5,7 @@ import env from 'dotenv';
 import chalk from 'chalk';
 import userRouter from './routers/user.router.js';
 import adminRouter from './routers/admin.router.js';
+import categoryRouter from './routers/category.router.js';
 
 
 env.config();
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(cors(corsAllow));
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/category', categoryRouter);
 
 app.listen(process.env.PORT, (err)=>{
     if(!err){

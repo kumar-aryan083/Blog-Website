@@ -1,60 +1,66 @@
 import React, { useEffect, useState, useRef } from 'react';
-import './Styles/AddBlog.css'
+import './Styles/AddBlog.css';
 import { Editor } from '@tinymce/tinymce-react';
-import { useNavigate } from 'react-router-dom';
 import app from '../firebase';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-const AddBlog = ({handleAlert, onSubmit}) => {
+const AddBlog = ({ handleAlert, onSubmit }) => {
     const [blogData, setBlogData] = useState({
         title: "",
         description: "",
         keyword: "",
         image: "",
-        content: ""
+        content: "",
+        category: ""
     });
     const [imgPerc, setImgPerc] = useState(0);
     const editorRef = useRef(null);
     const imageRef = useRef(null);
+    const categoryRef = useRef(null);
+    const [cat, setCat] = useState(null);
+
     const handleChange = (e) => {
         setBlogData({
             ...blogData,
             [e.target.name]: e.target.value
         });
-    }
+    };
 
     const handleEditorChange = (content) => {
         setBlogData({
             ...blogData,
             content: content
         });
-    }
+    };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        blogData.category = categoryRef.current.value;
         console.log(blogData); // Display the form data in the console for testing
-        const res = await fetch("/api/admin/add-blog",{
+        const res = await fetch("/api/admin/add-blog", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 token: localStorage.getItem("token")
             },
             body: JSON.stringify(blogData)
-        })
+        });
         const data = await res.json();
-        if(res.ok){
+        if (res.ok) {
             onSubmit("1");
             handleAlert(data.message);
-        }else{
+            console.log(blogData);
+        } else {
             handleAlert(data.message);
         }
-    }
+    };
+
     useEffect(() => {
-        if(imgPerc === 100){
-            document.querySelector('.showUploading').style.display = 'none'
-            document.querySelector('.showUploaded').style.display = 'block'
+        if (imgPerc === 100) {
+            document.querySelector('.showUploading').style.display = 'none';
+            document.querySelector('.showUploaded').style.display = 'block';
         }
-    }, [imgPerc])
+    }, [imgPerc]);
 
     const handleImageUpload = () => {
         const file = imageRef.current.files[0];
@@ -67,35 +73,43 @@ const AddBlog = ({handleAlert, onSubmit}) => {
             uploadTask.on('state_changed',
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    switch (snapshot.state) {
-                        case "paused":
-                            console.log("Upload is paused");
-                            break;
-                        case "running":
-                            setImgPerc(Math.round(progress));
-                            document.querySelector('.showUploading').style.display = 'block'
-                            break;
-                        default:
-                            break;
-                    }
+                    setImgPerc(Math.round(progress));
+                    document.querySelector('.showUploading').style.display = 'block';
                 },
                 (error) => {
                     console.error('Upload failed:', error);
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        setBlogData({...blogData, image : downloadURL})
+                        setBlogData({ ...blogData, image: downloadURL });
                     });
                 }
             );
         }
     };
 
-
     useEffect(() => {
-        document.title = "Add New Blog | TechBlog"
+        document.title = "Add New Blog | TechBlog";
+        getCat();
     }, []);
 
+    const getCat = async () => {
+        const res = await fetch('/api/category/all-category', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                token: localStorage.getItem('token')
+            }
+        });
+        const resData = await res.json();
+        if (res.ok) {
+            setCat(resData);
+            console.log(resData?.categories?.length);
+        } else {
+            handleAlert('Something went wrong');
+        }
+    };
+    
     return (
         <>
             <div className="full-add-blog">
@@ -122,10 +136,23 @@ const AddBlog = ({handleAlert, onSubmit}) => {
                         <div className="form-input file-inpt">
                             <label htmlFor="image">Image:</label>
                             <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif"
-                                onChange={handleImageUpload} ref={imageRef} id = "image" required/>
+                                onChange={handleImageUpload} ref={imageRef} id="image" required />
                         </div>
                         <p className='showUploading'>Uploading: {imgPerc}%</p>
                         <p className='showUploaded'>Uploaded: {imgPerc}%</p>
+                        <div className="form-input">
+                            <label htmlFor="category">Category:</label>
+                            <select name="category" id="category" ref={categoryRef} required>
+                                <option value="">Select Category</option>
+                                {cat?.categories?.length > 0 ? (
+                                    cat.categories.map((e) => (
+                                        <option key={e._id} value={e._id}>{e.catName}</option>
+                                    ))
+                                ) : (
+                                    <option value="none">No Category Added</option>
+                                )}
+                            </select>
+                        </div>
                         <label htmlFor="content">Content: </label>
                         <Editor
                             apiKey='cen6pw58w47qzqvolhnhn1l5xtuxtnqg49kopee4ld29cet1'

@@ -11,7 +11,7 @@ const SideNav = ({
         <ul className="admin-nav-lists">
             <li onClick={()=>{setPage("1")}}>Home</li>
             <li onClick={()=>{setPage("2")}}>Add Blogs</li>
-            <li onClick={()=>{setPage("3")}}>Manage Blogs</li>
+            <li onClick={()=>{setPage("3")}}>Manage Category</li>
             <li onClick={()=>{setPage("4")}}>Manage Comments</li>
             <li onClick={()=>{setPage("5")}}>Form Submissions</li>
         </ul>

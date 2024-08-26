@@ -5,6 +5,7 @@ import DashHome from '../../components/DashHome';
 import AddBlog from '../../components/AddBlog';
 import { checkValidation } from '../../utils/setValues';
 import { useNavigate } from 'react-router-dom';
+import ManageCategory from '../../components/ManageCategory';
 
 const Dashboard = ({ handleAlert, user }) => {
     const [number, setNumber] = useState("1");
@@ -37,7 +38,7 @@ const Dashboard = ({ handleAlert, user }) => {
             case "2":
                 return <AddBlog handleAlert={handleAlert} onSubmit={handleSubmit} />;
             case "3":
-                return <div>Content for Page 3</div>;
+                return <ManageCategory handleAlert = {handleAlert} user = {user}/>;
             case "4":
                 return <div>Content for Page 4</div>;
             case "5":
