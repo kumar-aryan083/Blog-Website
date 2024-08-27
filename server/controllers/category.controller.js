@@ -62,8 +62,8 @@ export const deleteCat = async (req, res) => {
         }
         await blogModel.deleteMany({ _id: { $in: category.blogs } });
         await category.deleteOne();
-
-        res.status(200).json({ message: 'Category and related blogs deleted successfully' });
+        const categories = await categoryModel.find();
+        res.status(200).json({ message: 'Category and related blogs deleted successfully', categories});
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Server Error' });
@@ -71,15 +71,15 @@ export const deleteCat = async (req, res) => {
 };
 export const updateCat = async (req, res) => {
     try {
+        // console.log(req.body);
         const category = await categoryModel.findById(req.params.id);
         category.catName = req.body.catName;
         await category.save();
         const categories = await categoryModel.find();
-        const allData = await categories.populate('blogs');
         res.status(200).json({
             success: true,
             message: "category updated",
-            allData
+            categories
         })
     } catch (error) {
         console.log(error)

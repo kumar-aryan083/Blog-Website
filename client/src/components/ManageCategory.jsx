@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Styles/ManageCategory.css'
 
-const ManageCategory = () => {
+const ManageCategory = ({handleAlert}) => {
     const [cat, setCat] = useState(null);
+    const [id, setId] = useState(null);
     const [newCat, setNewCat] = useState({
         catName: ''
     });
@@ -49,10 +50,45 @@ const ManageCategory = () => {
         }
     }
     const handleCatDel = async (id) => {
-
+        const res = await fetch(`/api/category/delete-category/${id}`,{
+            method: "DELETE",
+            headers:{
+                "Content-Type": "application/json",
+                token: localStorage.getItem("token")
+            }
+        });
+        const data = await res.json();
+        if(res.ok){
+            // console.log(data.categories);
+            setCat(data.categories);
+            handleAlert(data.message);
+        }else{
+            handleAlert(data.message);
+        }
     }
-    const handleCatUpdate = (id) => {
-
+    const handleCatUpdate = async(id) => {
+        document.querySelector(".update-cat-popup").style.display = "flex";
+        setId(id);
+    }
+    const handleUpdateSubmit = async(e)=>{
+        e.preventDefault();
+        // console.log(newCat);
+        const res = await fetch(`/api/category/update-category/${id}`,{
+            method: "PUT",
+            headers:{
+                "Content-Type": "application/json",
+                token: localStorage.getItem("token")
+            },
+            body: JSON.stringify(newCat)
+        });
+        const data = await res.json();
+        if(res.ok){
+            setCat(data.categories);
+            handleAlert(data.message);
+            document.querySelector(".update-cat-popup").style.display = "none";
+        }else{
+            console.log("error")
+        }
     }
   return (
     <>
@@ -76,8 +112,8 @@ const ManageCategory = () => {
                                         <td>{c.catName}</td>
                                         <td>{c.blogs.length}</td>
                                         <td>
-                                            <div className="cd-btn" onClick={() => { handleCatDel(c._id) }}>Update</div>
-                                            <div className="cd-btn" onClick={() => { handleCatUpdate(c._id) }}>Delete</div>
+                                            <div className="cd-btn" onClick={() => { handleCatUpdate(c._id) }}>Update</div>
+                                            <div className="cd-btn" onClick={() => { handleCatDel(c._id) }}>Delete</div>
                                         </td>
                                     </tr>
                                 ))) : (
@@ -102,6 +138,15 @@ const ManageCategory = () => {
                     <form onSubmit={handleCatSubmit}>
                         <input type="text" name = 'catName' placeholder='Enter New Category' onChange={handleChange} value={newCat.catName}/>
                         <input type="submit" value="Add" />
+                    </form>
+                </div>
+            </div>
+            <div className="update-cat-popup">
+                <div className="update-cat-card">
+                    <h3>Update Category</h3>
+                    <form onSubmit={handleUpdateSubmit}>
+                        <input type="text" name = 'catName' placeholder='Enter updated Category' onChange={handleChange} value={newCat.catName}/>
+                        <input type="submit" value="Update" />
                     </form>
                 </div>
             </div>

@@ -49,7 +49,7 @@ const AddBlog = ({ handleAlert, onSubmit }) => {
         if (res.ok) {
             onSubmit("1");
             handleAlert(data.message);
-            console.log(blogData);
+            // console.log(blogData);
         } else {
             handleAlert(data.message);
         }

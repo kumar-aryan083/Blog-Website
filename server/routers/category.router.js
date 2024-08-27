@@ -9,5 +9,4 @@ router.post('/add-new-category',verifyToken, addNewCat);
 router.delete('/delete-category/:id',verifyToken, deleteCat);
 router.put('/update-category/:id',verifyToken, updateCat);
 
-
 export default router;  
