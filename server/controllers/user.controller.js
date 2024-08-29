@@ -2,24 +2,46 @@ import userModel from "../models/user.model.js"
 import commentModel from "../models/comment.model.js"
 import jwt from 'jsonwebtoken';
 import blogModel from "../models/blog.model.js";
+import bcrypt from 'bcrypt';
+import nodemailer from 'nodemailer';
 
 export const login = async (req, res) => {
     try {
         // Logic for this controller
         // console.log('hit in login');
-        const existingUser = await userModel.findOne({ username: req.body.username });
+        const existingUser = await userModel.findOne({ 
+            $or: [
+                {username: req.body.id},
+                {email: req.body.id},
+                {phone: req.body.id}
+            ]
+         });
         if (!existingUser) {
             res.status(404).json({
                 success: false,
                 message: "user doesn't exists"
             })
         } else {
-            const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
-            const { password, __v, ...others } = existingUser._doc;
-            res.cookie("token", token, { httpOnly: true }).status(200).json({
-                data: others,
-                token: token
-            })
+            if(bcrypt.compareSync(req.body.password, existingUser.password)){
+                if(existingUser.verified){
+                    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
+                    const { password, __v, ...others } = existingUser._doc;
+                    res.cookie("token", token, { httpOnly: true }).status(200).json({
+                        data: others,
+                        token: token
+                    })
+                }else{
+                    res.status(401).json({
+                        success: false,
+                        message: "Please verify your email first"
+                    })
+                }
+            }else{
+                res.status(401).json({
+                    success: false,
+                    message: "Incorrect password"
+                })
+            }
         }
     } catch (error) {
         console.log(error);
@@ -30,14 +52,44 @@ export const register = async (req, res) => {
         // Logic for this controller
         const existingUser = await userModel.findOne({ username: req.body.username })
         if (!existingUser) {
-            const newUser = new userModel({ ...req.body });
+            const allChar = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let otp = "";
+            for(let i=0; i<6; i++){
+                const randomIdx = Math.floor(Math.random() * allChar.length);
+                otp+=allChar[randomIdx];
+            }
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(req.body.password, salt);
+            const newUser = new userModel({ ...req.body, password: hash, otp });
             await newUser.save();
             if (newUser) {
-                const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-                const { password, __v, ...others } = newUser._doc;
-                res.cookie("token", token, { httpOnly: true }).status(200).json({
-                    data: others,
-                    token: token
+                const transporter = nodemailer.createTransport({
+                    host: "smtp.hostinger.com",
+                    port: 465,
+                    secure: true,
+                    auth: {
+                        user: "noreply@rohankumar.cloud",
+                        pass: "X@Va8hSo3y"
+                    }
+                });
+                const mailBody = {
+                    from: `Aryan Srivastava <noreply@rohankumar.cloud>`,
+                    to: req.body.email,
+                    cc: "",
+                    subject: "OTP for registration",
+                    html: `<div style="border-radius: 20px; padding: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color: rgb(230, 230, 230);">
+                                <h1>Thanks for Registering with us.</h1>
+                                <p><strong>Note</strong>: Please don't share this otp with anyone</p>
+                                <h2 style="width: fit-content; background-color: white; padding: 20px 50px; margin: 100px auto; border-radius: 10px;">OTP: ${otp}</h2>
+                                <h4>Best Regards</h4>
+                                <h5>Aryan Srivastava</h5>
+                                <a href="mailto:connect@codesofrohan.com">connect@codesofrohan.com</a>
+                            </div>`
+                };
+                const info = await transporter.sendMail(mailBody);
+                res.status(200).json({
+                    success: true,
+                    message: "Email Sent",
                 })
             } else {
                 res.status(401).json({
@@ -53,6 +105,19 @@ export const register = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+export const verifyOtp = async (req, res)=>{
+    const user = await userModel.findOne({username: req.body.username});
+    if (user && user.otp === req.headers.otp) {
+        // Update the `verified` field to true
+        user.verified = true;
+        await user.save();
+
+        // Respond with a success message
+        res.status(200).json({ message: 'OTP verified successfully.', verified: true });
+    }else{
+        res.status(400).json({ message: 'Invalid OTP.', verified: false });
     }
 }
 export const addComment = async (req, res) => {

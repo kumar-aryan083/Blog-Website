@@ -48,7 +48,7 @@ export const register = async (req, res) => {
                                 <p><strong>Note</strong>: Please don't share this otp with anyone</p>
                                 <h2 style="width: fit-content; background-color: white; padding: 20px 50px; margin: 100px auto; border-radius: 10px;">OTP: ${otp}</h2>
                                 <h4>Best Regards</h4>
-                                <h5>Rohan Kumar</h5>
+                                <h5>Aryan Srivastava</h5>
                                 <a href="mailto:connect@codesofrohan.com">connect@codesofrohan.com</a>
                             </div>`
                 };

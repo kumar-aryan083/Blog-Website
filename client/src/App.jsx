@@ -8,8 +8,9 @@ import Register from './pages/admin/Register';
 import { handleLogout } from './utils/setValues';
 import Profile from './pages/admin/Profile';
 import Dashboard from './pages/admin/Dashboard';
-import AddBlog from './components/AddBlog';
 import Contact from './pages/Contact';
+import UserRegister from './pages/user/userRegister';
+import UserLogin from './pages/user/userLogin';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -62,6 +63,30 @@ const App = () => {
           />
           <Route
             path='/admin/:username/profile'
+            element={
+              <Profile />
+            }
+          />
+          <Route
+            path='/user/login'
+            element={
+              <UserLogin
+                handleAlert={handleAlert}
+                onLogin={settingUser}
+                user={user}
+              />}
+          />
+          <Route
+            path='/user/register'
+            element={
+              <UserRegister
+                handleAlert={handleAlert}
+                onRegister={settingUser}
+                user={user}
+              />}
+          />
+          <Route
+            path='/user/:username/profile'
             element={
               <Profile />
             }

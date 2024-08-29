@@ -3,7 +3,7 @@ import '../Styles/Register.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { setLocal } from '../../utils/setValues';
 
-const Register = ({handleAlert, onRegister, user}) => {
+const UserRegister = ({handleAlert, onRegister, user}) => {
   const nav = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -22,9 +22,9 @@ const Register = ({handleAlert, onRegister, user}) => {
   }
 
   useEffect(()=>{
-    document.title = "Admin | Register";
+    document.title = "User | Register";
     if(user){
-      nav(`/admin/${user.username}/profile`);
+      nav(`/user/${user.username}/profile`);
     }
   },[])
 
@@ -32,7 +32,7 @@ const Register = ({handleAlert, onRegister, user}) => {
     e.preventDefault();
     // console.log(formData);
     const {cnfPassword, ...others} = formData;
-    const res = await fetch("/api/admin/register", {
+    const res = await fetch("/api/user/register", {
       method: "POST",
       headers:{
         "Content-Type": "application/json"
@@ -53,7 +53,7 @@ const Register = ({handleAlert, onRegister, user}) => {
   const handleOtpSubmit = async(e)=>{
     e.preventDefault();
     console.log(otp);
-    const res = await fetch("/api/admin/verify-otp", {
+    const res = await fetch("/api/user/verify-otp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const Register = ({handleAlert, onRegister, user}) => {
     });
     const data = await res.json();
     if(res.ok){
-      nav('/admin/login');
+      nav('/user/login');
       handleAlert(data.message)
     }else{
       handleAlert(data.message)
@@ -73,7 +73,7 @@ const Register = ({handleAlert, onRegister, user}) => {
     <>
       <div className="full-register-page">
         <div className="register-card">
-            <h2>Admin Register</h2>
+            <h2>User Register</h2>
             <div className="l-register-card">
                 <div className="left-register">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis officiis, voluptates, accusantium vitae aspernatur velit magnam dolorum voluptas molestias, iste asperiores! Ipsa consequuntur dolores ea distinctio quia, rerum inventore? Reprehenderit esse consequatur tempore. Aliquid veniam libero quasi iste consequuntur architecto, sapiente, aspernatur et fugiat a earum eligendi voluptas doloremque recusandae?</p>
@@ -109,4 +109,4 @@ const Register = ({handleAlert, onRegister, user}) => {
   );
 }
 
-export default Register;
+export default UserRegister;

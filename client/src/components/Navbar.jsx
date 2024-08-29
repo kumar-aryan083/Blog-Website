@@ -51,8 +51,8 @@ const Navbar = ({ user, showAlert, handleAlert, logout }) => {
           {
             !user ? (
               <div className="btns">
-                <Link to="/admin/login"><div className="btn-one"><i className="fa-solid fa-right-to-bracket"></i><span>login</span></div></Link>
-                <Link to="/admin/register"><div className="btn-two"><i className="fa-solid fa-user-plus"></i><span>register</span></div></Link>
+                <Link to="/user/login"><div className="btn-one"><i className="fa-solid fa-right-to-bracket"></i><span>login</span></div></Link>
+                <Link to="/user/register"><div className="btn-two"><i className="fa-solid fa-user-plus"></i><span>register</span></div></Link>
               </div>
             ) : (
               <div className="btns">

@@ -30,6 +30,8 @@ export const checkValidation = async()=>{
         if(res.ok){
             // console.log(data.success);
             return data.success;
+        }else{
+            return false;
         }
     } catch (error) {
         console.log(error);
