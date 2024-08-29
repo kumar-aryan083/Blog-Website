@@ -45,7 +45,7 @@ const Navbar = ({ user, showAlert, handleAlert, logout }) => {
             <li className="nav-lists"><Link to="/">home</Link></li>
             <li className="nav-lists"><Link to="/">about</Link></li>
             <li className="nav-lists"><Link to="/">blogs</Link></li>
-            <li className="nav-lists"><Link to="/">contact us</Link></li>
+            <li className="nav-lists"><Link to="/contact-us">contact us</Link></li>
             <li className="nav-lists"><Link to="/">T & C</Link></li>
           </ul>
           {

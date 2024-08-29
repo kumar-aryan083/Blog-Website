@@ -9,6 +9,7 @@ import { handleLogout } from './utils/setValues';
 import Profile from './pages/admin/Profile';
 import Dashboard from './pages/admin/Dashboard';
 import AddBlog from './components/AddBlog';
+import Contact from './pages/Contact';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -79,6 +80,12 @@ const App = () => {
             element={
               <About
               />
+            }
+          />
+          <Route
+            path='/contact-us'
+            element={
+              <Contact user={user} />
             }
           />
           <Route
