@@ -23,6 +23,29 @@ const ContactForms = ({handleAlert}) => {
         getData();
     },[])
 
+    const handleReply = (id)=>{
+        console.log(id)
+    }
+
+    const handleDelete = async(id) =>{
+        // console.log(id)
+        const res = await fetch(`/api/admin//delete-contact-form/${id}`, {
+            method:"DELETE",
+            headers:{
+                "Contact-Type": "application/json",
+                token: localStorage.getItem("token")
+            }
+        });
+        const data = await res.json();
+        if(res.ok){
+            console.log(data.allForms);
+            setContactData(data.allForms);
+            handleAlert(data.message)
+        }else{
+            handleAlert(data.message)
+        }
+    }
+
   return (
     <>
       <div className="full-form-dash">
@@ -45,8 +68,9 @@ const ContactForms = ({handleAlert}) => {
                                 <td>{c.keyword}</td>
                                 <td>{c.email}</td>
                                 <td>
-                                    <div className="cf-btn">Reply</div>
-                                    <div className="cf-btn">Delete</div>
+                                    <div className="cf-btn">Message</div>
+                                    <div className="cf-btn" onClick={()=>{handleReply(c._id)}}>Reply</div>
+                                    <div className="cf-btn" onClick={()=>{handleDelete(c._id)}}>Delete</div>
                                 </td>
                             </tr>
                         ))):(

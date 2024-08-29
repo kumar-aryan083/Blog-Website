@@ -277,3 +277,13 @@ export const contactForms = async(req, res)=>{
         })
     }
 }
+
+export const deleteForm = async(req, res)=>{
+    await contactModel.findByIdAndDelete(req.params.fId);
+    const forms = await contactModel.find();
+    res.status(200).json({
+        success: true,
+        message: "all forms fetched successfully",
+        allForms: forms
+    });
+}

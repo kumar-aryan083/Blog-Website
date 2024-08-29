@@ -41,6 +41,12 @@
 .cf-btn:last-child{
     background-color: rgb(255, 75, 75);
 }
+.cf-btn:first-child{
+    background-color: rgb(109, 141, 244);
+}
+.cf-btn:first-child:hover{
+    background-color: rgb(97, 113, 191);
+}
 .cf-btn:hover{
     background-color: rgb(13, 172, 13);
 }
