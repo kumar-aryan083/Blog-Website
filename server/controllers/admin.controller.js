@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import blogModel from "../models/blog.model.js";
 import commentModel from "../models/comment.model.js";
 import categoryModel from "../models/category.model.js";
+import contactModel from "../models/contact.model.js";
 import userModel from "../models/user.model.js";
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
@@ -258,5 +259,21 @@ export const verifyOtp = async (req, res)=>{
         res.status(200).json({ message: 'OTP verified successfully.', verified: true });
     }else{
         res.status(400).json({ message: 'Invalid OTP.', verified: false });
+    }
+}
+
+export const contactForms = async(req, res)=>{
+    const forms = await contactModel.find();
+    if(forms){
+        res.status(200).json({
+            success: true,
+            message: "all forms fetched successfully",
+            allForms: forms
+        })
+    }else{
+        res.status(400).json({
+            success: false,
+            message: "unable to fetch data"
+        })
     }
 }

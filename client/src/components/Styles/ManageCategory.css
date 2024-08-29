@@ -32,7 +32,7 @@
     gap: 20px;
     justify-content: center;
 }
-.w-t-btns {
+/* .w-t-btns {
     display: flex;
     gap: 20px;
     width: 100%;
@@ -67,13 +67,13 @@
     background-color: rgb(255, 0, 0);
     color: white;
     cursor: pointer;
-    border-radius: 4px; /* Adds a slight rounding to the button */
-    transition: background-color 0.3s; /* Adds a smooth transition for hover effect */
+    border-radius: 4px; 
+    transition: background-color 0.3s; 
 }
 
 .d-m-btn:hover {
-    background-color: #cc0000; /* Slightly darkens the red on hover */
-}
+    background-color: #cc0000; 
+} */
 
 .cd-btn{
     padding: 5px 20px;

@@ -6,6 +6,7 @@ import AddBlog from '../../components/AddBlog';
 import { checkValidation } from '../../utils/setValues';
 import { useNavigate } from 'react-router-dom';
 import ManageCategory from '../../components/ManageCategory';
+import ContactForms from '../../components/ContactForms';
 
 const Dashboard = ({ handleAlert, user }) => {
     const [number, setNumber] = useState("1");
@@ -42,7 +43,7 @@ const Dashboard = ({ handleAlert, user }) => {
             case "4":
                 return <div>Content for Page 4</div>;
             case "5":
-                return <div>Content for Page 5</div>;
+                return <ContactForms handleAlert={handleAlert} />
             default:
                 return <div>Default Content</div>;
         }
