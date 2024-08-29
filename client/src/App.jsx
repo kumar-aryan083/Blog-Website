@@ -110,7 +110,7 @@ const App = () => {
           <Route
             path='/contact-us'
             element={
-              <Contact user={user} />
+              <Contact user={user} handleAlert={handleAlert} />
             }
           />
           <Route

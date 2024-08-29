@@ -2,6 +2,7 @@ import userModel from "../models/user.model.js"
 import commentModel from "../models/comment.model.js"
 import jwt from 'jsonwebtoken';
 import blogModel from "../models/blog.model.js";
+import contactModel from "../models/contact.model.js";
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 
@@ -337,5 +338,20 @@ export const disLikeBlog = async(req, res) => {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+export const contactUs = async(req, res)=>{
+    const newContact = new contactModel({...req.body, userId: req.user.id});
+    await newContact.save();
+    if(newContact){
+        res.status(200).json({
+            success: true,
+            message: "Contact Form submitted"
+        })
+    }else{
+        res.status(200).json({
+            success: true,
+            message: "Something went wrong"
+        })
     }
 }

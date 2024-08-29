@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Styles/Contact.css';
+import { useNavigate } from 'react-router-dom';
 
-const Contact = ({user}) => {
+const Contact = ({user, handleAlert}) => {
+    const nav = useNavigate();
     const [formData, setFormData] = useState({
         name: user.name,
         username: user.username,
@@ -16,9 +18,24 @@ const Contact = ({user}) => {
         [e.target.name]: e.target.value
     })
     }
-    const handleSubmit = (e)=>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
-        console.log(formData);
+        // console.log(formData);
+        const res = await fetch("/api/user/contact-us", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            token: localStorage.getItem("token")
+          },
+          body: JSON.stringify(formData)
+        });
+        const data = await res.json();
+        if(res.ok){
+          handleAlert(data.message)
+          nav('/');
+        }else{
+          handleAlert(data.message)
+        }
     }
   return (
     <>

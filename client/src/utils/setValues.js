@@ -27,12 +27,7 @@ export const checkValidation = async()=>{
             }
         });
         const data = await res.json();
-        if(res.ok){
-            // console.log(data.success);
-            return data.success;
-        }else{
-            return false;
-        }
+        return data.success;
     } catch (error) {
         console.log(error);
     }
