@@ -4,6 +4,11 @@ import './Styles/ContactForms.css';
 const ContactForms = ({handleAlert}) => {
     const [contactData, setContactData] = useState(null);
     const [message, setMessage] = useState("");
+    const [replyForm, setReplyForm] = useState({
+        email: "",
+        subject: "",
+        reply: ""
+    });
 
     useEffect(()=>{
         const getData = async()=>{
@@ -25,9 +30,39 @@ const ContactForms = ({handleAlert}) => {
         getData();
     },[])
 
-    
+    const handleChange = (e)=>{
+        setReplyForm({
+            ...replyForm,
+            [e.target.name]: e.target.value
+        })
+    }
+
     const handleReply = (id)=>{
-        console.log(id)
+        // console.log(id)
+        document.querySelector(".reply-popup").style.display = "block";
+    }
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        // console.log(replyForm);
+        const res = await fetch("/api/admin/reply-form",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                token: localStorage.getItem("token")
+            },
+            body: JSON.stringify(replyForm)
+        });
+        const data = await res.json();
+        if(res.ok){
+            // console.log(data);
+            setReplyForm({
+                email: "",
+                subject: "",
+                reply: ""
+            })
+            handleAlert(data.message)
+        }
+        document.querySelector(".reply-popup").style.display = "none";
     }
     
     const handleDelete = async(id) =>{
@@ -57,6 +92,9 @@ const ContactForms = ({handleAlert}) => {
     const handleClose = ()=>{
         document.querySelector(".sm-popup").style.display = "none";
     }
+    const replyClose = ()=>{
+        document.querySelector(".reply-popup").style.display = "none";
+    }
 
   return (
     <>
@@ -81,7 +119,7 @@ const ContactForms = ({handleAlert}) => {
                                 <td>{c.email}</td>
                                 <td>
                                     <div className="cf-btn" onClick={()=>{showMessage(c.message)}}>Message</div>
-                                    <div className="cf-btn" onClick={()=>{handleReply(c._id)}}>Reply</div>
+                                    <div className="cf-btn" onClick={()=>{handleReply(c)}}>Reply</div>
                                     <div className="cf-btn" onClick={()=>{handleDelete(c._id)}}>Delete</div>
                                 </td>
                             </tr>
@@ -106,6 +144,21 @@ const ContactForms = ({handleAlert}) => {
             </div>
             <hr />
             <div>{message}</div>
+        </div>
+      </div>
+      <div className="reply-popup">
+        <div className="rp-card">
+            <div className="r-head">
+                <h2>Reply Form</h2>
+                <p onClick={replyClose}>X</p>
+            </div>
+            <hr />
+            <form onSubmit={handleSubmit}>
+                <input type="email" placeholder='To: Email' name='email' value={replyForm.email} onChange={handleChange}/>
+                <input type="text" name='subject' placeholder='Subject' onChange={handleChange} value={replyForm.subject}/>
+                <textarea name="reply" rows={8} placeholder='Write your reply here' onChange={handleChange} value={replyForm.reply}></textarea>
+                <input type="submit" value="Send Reply" />
+            </form>
         </div>
       </div>
     </>

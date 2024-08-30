@@ -25,8 +25,9 @@ const Navbar = ({ user, showAlert, handleAlert, logout }) => {
     showProfile();
   }, [user])
 
-  const showProfile = () => {
-    if (checkValidation()) {
+  const showProfile = async() => {
+    const c = await checkValidation();
+    if (c) {
       // console.log(checkValidation());
       setLink(`/admin/${user?.username}/profile`);
     } else {

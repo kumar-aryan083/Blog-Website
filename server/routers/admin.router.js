@@ -1,5 +1,5 @@
 import express from 'express';
-import { addBlog, contactForms, deleteBlog, deleteComment, deleteForm, editBlog, login, register, validate, verifyOtp } from '../controllers/admin.controller.js';
+import { addBlog, contactForms, deleteBlog, deleteComment, deleteForm, editBlog, login, register, replyForm, validate, verifyOtp } from '../controllers/admin.controller.js';
 import { verifyToken } from '../verifyToken.js';
 
 const router = express.Router();
@@ -14,5 +14,6 @@ router.get('/validate', verifyToken, validate);
 router.post('/verify-otp', verifyOtp);
 router.get('/contact-forms', contactForms);
 router.delete('/delete-contact-form/:fId', deleteForm);
+router.post('/reply-form',verifyToken, replyForm);
 
 export default router;

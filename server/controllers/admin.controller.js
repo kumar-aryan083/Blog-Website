@@ -287,3 +287,33 @@ export const deleteForm = async(req, res)=>{
         allForms: forms
     });
 }
+export const replyForm = async(req, res)=>{
+    const transporter = nodemailer.createTransport({
+        host: "smtp.hostinger.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "noreply@rohankumar.cloud",
+            pass: "X@Va8hSo3y"
+        }
+    });
+    const mailBody = {
+        from: `Aryan Srivastava <noreply@rohankumar.cloud>`,
+        to: req.body.email,
+        cc: "",
+        subject: req.body.subject,
+        html: `<div style="border-radius: 20px; padding: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color: rgb(230, 230, 230);">
+                    <h1>This is reply for your submitted contact form.</h1>
+                    <p><strong>Note</strong>: Please don't share this otp with anyone</p>
+                    <h2 style="width: fit-content; background-color: white; padding: 20px 50px; margin: 100px auto; border-radius: 10px;">${req.body.reply}</h2>
+                    <h4>Best Regards</h4>
+                    <h5>Aryan Srivastava</h5>
+                    <a href="mailto:connect@codesofrohan.com">connect@codesofrohan.com</a>
+                </div>`
+    };
+    const info = await transporter.sendMail(mailBody);
+    res.status(200).json({
+        success: true,
+        message: "Reply Sent",
+    })
+}
