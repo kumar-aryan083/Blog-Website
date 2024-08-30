@@ -3,6 +3,8 @@ import './Styles/ContactForms.css';
 
 const ContactForms = ({handleAlert}) => {
     const [contactData, setContactData] = useState(null);
+    const [message, setMessage] = useState("");
+
     useEffect(()=>{
         const getData = async()=>{
             const res = await fetch("/api/admin/contact-forms", {
@@ -23,10 +25,11 @@ const ContactForms = ({handleAlert}) => {
         getData();
     },[])
 
+    
     const handleReply = (id)=>{
         console.log(id)
     }
-
+    
     const handleDelete = async(id) =>{
         // console.log(id)
         const res = await fetch(`/api/admin//delete-contact-form/${id}`, {
@@ -38,12 +41,21 @@ const ContactForms = ({handleAlert}) => {
         });
         const data = await res.json();
         if(res.ok){
-            console.log(data.allForms);
+            // console.log(data.allForms);
             setContactData(data.allForms);
             handleAlert(data.message)
         }else{
             handleAlert(data.message)
         }
+    }
+    
+    const showMessage = (msg) =>{
+        setMessage(msg);
+        console.log(msg);
+        document.querySelector('.sm-popup').style.display = "block";
+    }
+    const handleClose = ()=>{
+        document.querySelector(".sm-popup").style.display = "none";
     }
 
   return (
@@ -68,7 +80,7 @@ const ContactForms = ({handleAlert}) => {
                                 <td>{c.keyword}</td>
                                 <td>{c.email}</td>
                                 <td>
-                                    <div className="cf-btn">Message</div>
+                                    <div className="cf-btn" onClick={()=>{showMessage(c.message)}}>Message</div>
                                     <div className="cf-btn" onClick={()=>{handleReply(c._id)}}>Reply</div>
                                     <div className="cf-btn" onClick={()=>{handleDelete(c._id)}}>Delete</div>
                                 </td>
@@ -84,6 +96,16 @@ const ContactForms = ({handleAlert}) => {
                     </tbody>
                 </table>
             </div>
+        </div>
+      </div>
+      <div className="sm-popup">
+        <div className="sm-popup-card">
+            <div className="head">
+                <h2>Message</h2>
+                <p onClick={handleClose}>X</p>
+            </div>
+            <hr />
+            <div>{message}</div>
         </div>
       </div>
     </>
