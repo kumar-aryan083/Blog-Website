@@ -239,7 +239,7 @@ export const validate = async (req, res) => {
                 message: "is admin",
             })
         } else {
-            res.status(404).json({
+            res.status(200).json({
                 success: false,
                 message: "not admin"
             })
@@ -303,7 +303,7 @@ export const replyForm = async(req, res)=>{
         cc: "",
         subject: req.body.subject,
         html: `<div style="border-radius: 20px; padding: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color: rgb(230, 230, 230);">
-                    <h1>This is reply for your submitted contact form.</h1>
+                    <h1>This email is in reference to your submitted contact form.</h1>
                     <p><strong>Note</strong>: Please don't share this otp with anyone</p>
                     <h2 style="width: fit-content; background-color: white; padding: 20px 50px; margin: 100px auto; border-radius: 10px;">${req.body.reply}</h2>
                     <h4>Best Regards</h4>

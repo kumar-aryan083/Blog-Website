@@ -1,0 +1,5 @@
+.full-home{
+    height: calc(100vh - 73px);
+    width: 80%;
+    margin: 0 auto;
+}

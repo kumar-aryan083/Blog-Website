@@ -37,8 +37,8 @@ const ContactForms = ({handleAlert}) => {
         })
     }
 
-    const handleReply = (id)=>{
-        // console.log(id)
+    const handleReply = (email)=>{
+        setReplyForm({...replyForm, email})
         document.querySelector(".reply-popup").style.display = "block";
     }
     const handleSubmit = async(e)=>{
@@ -119,7 +119,7 @@ const ContactForms = ({handleAlert}) => {
                                 <td>{c.email}</td>
                                 <td>
                                     <div className="cf-btn" onClick={()=>{showMessage(c.message)}}>Message</div>
-                                    <div className="cf-btn" onClick={()=>{handleReply(c)}}>Reply</div>
+                                    <div className="cf-btn" onClick={()=>{handleReply(c.email)}}>Reply</div>
                                     <div className="cf-btn" onClick={()=>{handleDelete(c._id)}}>Delete</div>
                                 </td>
                             </tr>
@@ -154,7 +154,7 @@ const ContactForms = ({handleAlert}) => {
             </div>
             <hr />
             <form onSubmit={handleSubmit}>
-                <input type="email" placeholder='To: Email' name='email' value={replyForm.email} onChange={handleChange}/>
+                <input type="email" placeholder='To: Email' name='email' value={replyForm.email} onChange={handleChange} readOnly/>
                 <input type="text" name='subject' placeholder='Subject' onChange={handleChange} value={replyForm.subject}/>
                 <textarea name="reply" rows={8} placeholder='Write your reply here' onChange={handleChange} value={replyForm.reply}></textarea>
                 <input type="submit" value="Send Reply" />

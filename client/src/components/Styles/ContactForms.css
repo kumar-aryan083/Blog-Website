@@ -136,6 +136,9 @@
     font-weight: 500;
     cursor: pointer;
 }
+.rp-card>form>input:first-child{
+    background-color: rgba(0, 0, 0, 0.198);
+}
 .r-head{
     display: flex;
     justify-content: space-between;

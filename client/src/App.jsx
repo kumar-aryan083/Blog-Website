@@ -40,6 +40,7 @@ const App = () => {
             path='/'
             element={
               <Home
+              handleAlert={handleAlert}
               />
             }
           />

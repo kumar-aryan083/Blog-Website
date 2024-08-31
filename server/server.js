@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import userRouter from './routers/user.router.js';
 import adminRouter from './routers/admin.router.js';
 import categoryRouter from './routers/category.router.js';
+import commonRouter from './routers/com.router.js';
 
 
 env.config();
@@ -28,6 +29,7 @@ app.use(cors(corsAllow));
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/common', commonRouter);
 
 app.listen(process.env.PORT, (err)=>{
     if(!err){

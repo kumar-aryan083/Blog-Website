@@ -6,6 +6,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.269);
     position: fixed;
     width: 100%;
+    z-index: 999;
 }
 .nav-ul{
     display: flex;
