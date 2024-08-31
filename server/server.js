@@ -7,6 +7,7 @@ import userRouter from './routers/user.router.js';
 import adminRouter from './routers/admin.router.js';
 import categoryRouter from './routers/category.router.js';
 import commonRouter from './routers/com.router.js';
+import homeRouter from './routers/home.router.js';
 
 
 env.config();
@@ -30,6 +31,7 @@ app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/common', commonRouter);
+app.use('/api/home', homeRouter);
 
 app.listen(process.env.PORT, (err)=>{
     if(!err){

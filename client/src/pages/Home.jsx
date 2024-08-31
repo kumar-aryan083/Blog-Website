@@ -23,14 +23,14 @@ const Home = ({ handleAlert }) => {
       }
     }
     getBlogs();
+    
   }, [])
   
   return (
     <>
       <div className="full-home">
         <Recent blogs = {blogs} handleAlert= {handleAlert}/>
-        <Xsroll catId = "66d09373556de5df6723552e" blogs = {blogs}/>
-
+        <Xsroll catId = "66d1836ebae8c586dbbddddf" blogs = {blogs}/>
       </div>
     </>
   );
