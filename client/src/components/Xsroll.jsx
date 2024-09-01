@@ -16,7 +16,6 @@ const Xscroll = ({ catId }) => {
       }
     });
     const data = await res.json();
-    console.log(data?.catBlog);
     if(res.ok){
       setBlogs(data.catBlog);
     }
