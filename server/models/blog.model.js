@@ -40,6 +40,6 @@ const blogSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Admin"
     }
-}, [{timestamps: true}])
+}, {timestamps: true})
 
 export default mongoose.model('Blog', blogSchema);

@@ -5,6 +5,7 @@ import Xsroll from '../components/Xsroll';
 
 const Home = ({ handleAlert }) => {
   const [blogs, setBlogs] = useState(null);
+  const [catIds, setCatIds] = useState([])
 
   useEffect(() => {
     document.title = "Home";
@@ -25,12 +26,39 @@ const Home = ({ handleAlert }) => {
     getBlogs();
     
   }, [])
-  
+  useEffect(() => {
+    const getCat = async () => {
+      const res = await fetch('/api/home/get', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json();
+      if(res.ok){
+        setCatIds(data.structure[0].homeRow);
+        // console.log(data);
+      }
+    }
+    getCat();
+  }, [])
   return (
     <>
       <div className="full-home">
         <Recent blogs = {blogs} handleAlert= {handleAlert}/>
-        <Xsroll catId = "66d1836ebae8c586dbbddddf" blogs = {blogs}/>
+        {catIds?.length>0?(
+          <>
+              {
+                catIds?.map((id, idx) => (
+                  <Xsroll key = {idx} catId={id}/>
+                ))
+              }
+          </>
+        ):(
+          <>
+
+          </>
+        )}
       </div>
     </>
   );

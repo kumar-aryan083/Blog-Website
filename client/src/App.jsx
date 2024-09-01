@@ -115,6 +115,12 @@ const App = () => {
             }
           />
           <Route
+            path='/:catName/:id'
+            element={
+              <Contact user={user} handleAlert={handleAlert} />
+            }
+          />
+          <Route
             path='/*'
             element={
               <Home />

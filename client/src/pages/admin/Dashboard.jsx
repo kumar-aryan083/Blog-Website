@@ -13,6 +13,7 @@ const Dashboard = ({ handleAlert, user }) => {
     const [number, setNumber] = useState("1");
     const [res, setRes] = useState(false);
     const nav = useNavigate();
+    
     useEffect(() => {
         const verifyAdmin = async () => {
             const adminCheck = await checkValidation();

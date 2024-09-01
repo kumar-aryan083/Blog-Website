@@ -1,0 +1,39 @@
+.full-card{
+    width: 350px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+}
+.fc-img-ctrl{
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+.fc-img-ctrl>img{
+    width: 100%;
+    height: 100%;
+}
+.fc-content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.fc-info{
+    display: flex;
+    justify-content: space-between;
+}
+.fc-info>p{
+    margin: auto 0;
+}
+.fc-info>a{
+    text-decoration: none;
+}
+.fci-btn{
+    padding: 5px 12px;
+    background-color: red;
+    color: white;
+}
+@media screen and (max-width: 900px) {
+    .full-card{
+        width: 100%;
+    }
+}

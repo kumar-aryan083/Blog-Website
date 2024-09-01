@@ -87,8 +87,13 @@ export const updateCat = async (req, res) => {
 }
 export const catByName = async (req, res) => {
     try {
-        const cat = await categoryModel.findOne({catName: req.params.catName});
-        const fullCat = await cat.populate('blogs');
+        const cat = await categoryModel.findOne({_id: req.params.id});
+        const fullCat = await cat.populate({
+            path: 'blogs',
+            populate: [
+                {path: 'cat', select: 'catName'}
+            ]
+        });
         res.status(200).json({
             success: true,
             message: "fetched succesfully",
