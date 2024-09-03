@@ -11,6 +11,8 @@ import Dashboard from './pages/admin/Dashboard';
 import Contact from './pages/Contact';
 import UserRegister from './pages/user/userRegister';
 import UserLogin from './pages/user/userLogin';
+import Postpage from './pages/Postpage';
+import Category from './pages/Category';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -115,9 +117,15 @@ const App = () => {
             }
           />
           <Route
-            path='/:catName/:id'
+            path='/:catName/:slug'
             element={
-              <Contact user={user} handleAlert={handleAlert} />
+              <Postpage user={user} handleAlert={handleAlert} />
+            }
+          />
+          <Route
+            path='/:catName'
+            element={
+              <Category user={user} handleAlert={handleAlert} />
             }
           />
           <Route

@@ -20,3 +20,21 @@ export const allBlogs = async(req, res)=>{
         })
     }
 }
+
+export const blogBySlug = async (req, res) => {
+    try {
+        const blog = await blogModel.findOne({slug: req.params.slug}).populate('adminId').populate('cat').populate({
+            path: 'comments',
+            populate: [
+                {path: 'userId', select: 'name'}
+            ]
+        });
+        res.status(200).json({
+            success: true,
+            message: 'data fetched',
+            blog
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}

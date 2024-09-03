@@ -11,9 +11,10 @@ const SideNav = ({
         <ul className="admin-nav-lists">
             <li onClick={()=>{setPage("1")}}>Home</li>
             <li onClick={()=>{setPage("2")}}>Add Blogs</li>
-            <li onClick={()=>{setPage("3")}}>Manage Category</li>
-            <li onClick={()=>{setPage("4")}}>Manage Home</li>
-            <li onClick={()=>{setPage("5")}}>Form Submissions</li>
+            <li onClick={()=>{setPage("3")}}>Manage Blogs</li>
+            <li onClick={()=>{setPage("4")}}>Manage Category</li>
+            <li onClick={()=>{setPage("5")}}>Manage Home</li>
+            <li onClick={()=>{setPage("6")}}>Form Submissions</li>
         </ul>
       </div>
     </>

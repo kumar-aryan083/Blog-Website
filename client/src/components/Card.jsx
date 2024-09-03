@@ -43,7 +43,7 @@ const Card = ({blog}) => {
             <div className="fc-info">
                 <p>{date}</p>
                 {/* <p>{new Date(blog.createdAt).toLocaleDateString()}</p> */}
-                <Link to = {`/${blog.cat.catName.toLowerCase()}/${blog._id}`}><div className="fci-btn">Read More</div></Link>
+                <Link to = {`/${blog.cat.catName.toLowerCase()}/${blog.slug}`}><div className="fci-btn">Read More</div></Link>
             </div>
         </div>
       </div>

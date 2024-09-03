@@ -5,6 +5,7 @@ import blogModel from "../models/blog.model.js";
 import contactModel from "../models/contact.model.js";
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
+import { populate } from "dotenv";
 
 export const login = async (req, res) => {
     try {
@@ -136,11 +137,16 @@ export const addComment = async (req, res) => {
         user.comments.push(newComment._id);
         await user.save();
 
-        const comments = await commentModel.find();
+        const comments = (await blog.populate({
+            path: 'comments',
+            populate:{
+                path: 'userId'
+            }
+        })).comments
 
         res.status(200).json({
             success: true,
-            message: "new comment created successfully",
+            message: "Comment Added successfully",
             comments
         })
 
@@ -223,7 +229,14 @@ export const saveBlog = async (req, res) => {
 export const likeComment = async(req, res) => {
     try {
         // Logic for this controller
-        const comment = await commentModel.findOne({_id: req.params.cId});
+        const comment = await commentModel.findOne({_id: req.params.cId})
+        const blog = await blogModel.findOne({_id: comment.blogId})
+        const comments = (await blog.populate({
+            path: 'comments',
+            populate: {
+                path: 'userId'
+            }
+        })).comments
         const isDislikeBefore = comment.dislikes.some(dislikeId => dislikeId.toString()===req.user.id);
         if(isDislikeBefore){
             comment.dislikes.pop(req.user.id);
@@ -233,12 +246,18 @@ export const likeComment = async(req, res) => {
         if(isLikedBefore){
             res.status(401).json({
                 success: false,
-                message: "already liked before"
+                message: "already liked before",
+                comments
             })
         }else{
             comment.likes.push(req.user.id);
             await comment.save();
-            const comments = (await blogModel.findOne({ _id: comment.blogId }).populate('comments')).comments;
+            const comments = (await blogModel.findOne({ _id: comment.blogId }).populate({
+                path: 'comments',
+                populate: {
+                    path: 'userId'
+                }
+            })).comments;
             res.status(200).json({
                 success: true,
                 message: 'Liked successfully',
@@ -252,7 +271,13 @@ export const likeComment = async(req, res) => {
 export const disLikeComment = async(req, res) => {
     try {
         // Logic for this controller
-        const comment = await commentModel.findOne({_id: req.params.cId});
+        const comment = await commentModel.findOne({_id: req.params.cId})
+        const comments = (await blogModel.findOne({_id: comment.blogId}).populate({
+            path: 'comments',
+            populate: {
+                path: 'userId'
+            }
+        })).comments
         const isLikeBefore = comment.likes.some(likeId => likeId.toString()===req.user.id);
         if(isLikeBefore){
             comment.likes.pop(req.user.id);
@@ -262,16 +287,22 @@ export const disLikeComment = async(req, res) => {
         if(isdislikedBefore){
             res.status(401).json({
                 success: false,
-                message: "already disliked before"
+                message: "already disliked before",
+                comments
             })
         }else{
             comment.dislikes.push(req.user.id);
             await comment.save();
-            const comments = (await blogModel.findOne({ _id: comment.blogId }).populate('comments')).comments;
+            const comments = (await blogModel.findOne({ _id: comment.blogId }).populate({
+                path: 'comments',
+                populate: {
+                    path: 'userId'
+                }
+            })).comments;
             res.status(200).json({
                 success: true,
-                message: 'Liked successfully',
-                comments: comments
+                message: 'Disliked successfully',
+                comments
             })
         }
     } catch (error) {
@@ -289,20 +320,24 @@ export const likeBlog = async(req, res) => {
         }
         const isLikedBefore = blog.likes.some(likeId => likeId.toString()===req.user.id);
         if(isLikedBefore){
-            res.status(401).json({
+            res.status(200).json({
                 success: false, 
-                message: "blog already liked"
+                message: "blog already liked",
+                blogs:blog
             })
         }else{
             blog.likes.push(req.user.id);
             await blog.save();
 
-            const blogs = await blogModel.find();
+            const blogs = await blogModel.findOne({_id: req.params.bId}).populate({
+                path: "comments",
+                populate: {path: 'userId'}
+            });
 
             res.status(200).json({
                 success: true,
                 message: "blog has been liked",
-                blogs: blogs
+                blogs
             })
         }
     } catch (error) {
@@ -320,15 +355,19 @@ export const disLikeBlog = async(req, res) => {
         }
         const isdislikedBefore = blog.dislikes.some(dislikeId => dislikeId.toString()===req.user.id);
         if(isdislikedBefore){
-            res.status(401).json({
+            res.status(200).json({
                 success: false, 
-                message: "blog already disliked"
+                message: "blog already disliked",
+                blogs:blog
             })
         }else{
             blog.dislikes.push(req.user.id);
             await blog.save();
 
-            const blogs = await blogModel.find();
+            const blogs = await blogModel.findOne({_id: req.params.bId}).populate({
+                path: "comments",
+                populate: {path: 'userId'}
+            });
 
             res.status(200).json({
                 success: true,

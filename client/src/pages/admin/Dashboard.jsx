@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import ManageCategory from '../../components/ManageCategory';
 import ContactForms from '../../components/ContactForms';
 import ManageHome from '../../components/ManageHome';
+import AllBlogs from '../../components/AllBlogs';
 
 const Dashboard = ({ handleAlert, user }) => {
     const [number, setNumber] = useState("1");
@@ -41,10 +42,12 @@ const Dashboard = ({ handleAlert, user }) => {
             case "2":
                 return <AddBlog handleAlert={handleAlert} onSubmit={handleSubmit} />;
             case "3":
-                return <ManageCategory handleAlert = {handleAlert} user = {user}/>;
+                return <AllBlogs />;
             case "4":
-                return <ManageHome handleAlert = {handleAlert}/>;
+                return <ManageCategory handleAlert = {handleAlert} user = {user}/>;
             case "5":
+                return <ManageHome handleAlert = {handleAlert}/>;
+            case "6":
                 return <ContactForms handleAlert={handleAlert} />
             default:
                 return <div>Default Content</div>;

@@ -11,6 +11,7 @@ const Recent = ({
   }
   return (
     <>
+        <h2 className='r-head'>Recent Blogs</h2>
       <div className="recent-home">
         <div className="left-recent">
           <div className="img-ctrl">

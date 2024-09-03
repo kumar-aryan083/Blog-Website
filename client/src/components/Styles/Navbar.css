@@ -24,6 +24,19 @@
     text-decoration: none;
     color: black;
     text-transform: capitalize;
+    display: flex;
+    flex-direction: column;
+}
+.nav-lists>a::after{
+    content: "";
+    display: block;
+    height: 2px;
+    width: 0;
+    background-color: blue;
+    transition: all 0.3s;
+}
+.nav-lists>a:hover::after{
+    width: 100%;
 }
 .btns{
     display: flex;

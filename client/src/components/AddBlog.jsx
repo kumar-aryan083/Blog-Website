@@ -11,7 +11,8 @@ const AddBlog = ({ handleAlert, onSubmit }) => {
         keyword: "",
         image: "",
         content: "",
-        category: ""
+        category: "",
+        slug: ""
     });
     const [imgPerc, setImgPerc] = useState(0);
     const editorRef = useRef(null);
@@ -131,6 +132,11 @@ const AddBlog = ({ handleAlert, onSubmit }) => {
                         <div className="form-input">
                             <label htmlFor="keyword">Keyword:</label>
                             <input type="text" placeholder='Enter your Keyword here' name="keyword" value={blogData.keyword}
+                                onChange={handleChange} />
+                        </div>
+                        <div className="form-input">
+                            <label htmlFor="slug">Slug:</label>
+                            <input type="text" placeholder='Enter your Slug here' name="slug" value={blogData.slug}
                                 onChange={handleChange} />
                         </div>
                         <div className="form-input file-inpt">
