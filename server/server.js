@@ -1,41 +1,51 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import env from 'dotenv';
-import chalk from 'chalk';
-import userRouter from './routers/user.router.js';
-import adminRouter from './routers/admin.router.js';
-import categoryRouter from './routers/category.router.js';
-import commonRouter from './routers/com.router.js';
-import homeRouter from './routers/home.router.js';
+import express from 'express'
+import cors from 'cors'
+import mongoose from 'mongoose'
+import env from 'dotenv'
+import chalk from 'chalk'
+import cookieParser from 'cookie-parser'
+import userRouter from './router/user.router.js'
+import adminRouter from './router/admin.router.js'
+import comRouter from './router/com.router.js'
+import categoryRouter from './router/category.router.js'
+import homeRouter from './router/home.router.js'
 
 
 env.config();
-const app = express();
+
 const corsAllow = {
-    origin: "http://localhost:5173",
-    methods: "POST, GET, PUT, PATCH, DELETE, HEAD",
-    credentials: true
+    origin: 'http://localhost:5173',
+    method: 'POST, GET, PUT, PATCH, HEAD',
+    credential: true
 }
-const dbConnection = ()=>{
-    mongoose.connect(process.env.MONGODB_URL).then(()=>{
-        console.log(chalk.green.inverse("DB connected successfully."));
-    }).catch((e)=>{
-        console.log(chalk.red.inverse(e));
+const app = express();
+const dbConnection = () => {
+    mongoose.connect(process.env.MONGO_STRING)
+    .then(() => {
+        console.log(chalk.yellow.inverse.bold('db is connected'))
+    }).catch((e) => {
+        console.log(e);
     })
 }
 
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Server is live'
+    })
+})
+
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors(corsAllow));
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/com', comRouter);
 app.use('/api/category', categoryRouter);
-app.use('/api/common', commonRouter);
 app.use('/api/home', homeRouter);
 
-app.listen(process.env.PORT, (err)=>{
-    if(!err){
-        console.log(chalk.yellow.inverse(`Server is live at port ${process.env.PORT}`))
-        dbConnection();
-    }
-});
+
+app.listen(process.env.PORT, (e) => {
+    console.log(e?chalk.red.inverse.bold('Server is not live'):chalk.green.inverse.bold(`Server is live on ${process.env.PORT}`))
+    dbConnection();
+})

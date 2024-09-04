@@ -1,0 +1,67 @@
+.full-dashboard{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+.fd-left{
+    width: 300px;
+    height: 100%;
+    background-color: rgb(34, 34, 34);
+}
+.fd-right{
+    width: calc(100% - 300px);
+}
+.sn-list{
+    list-style-type: none;
+    height: calc(100vh - 72px);
+}
+.sn-list>hr{
+    margin: 0 auto;
+}
+.snItems{
+    padding: 20px 10%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.283);
+}
+.snItems:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.sn-list>a{
+    color: white;
+}
+.s-o{
+    position: absolute;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: red;
+    font-weight: 600;
+    color: white;
+    top: 10px;
+    display: none;
+}
+.dash-bgr{
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 5px 20px;
+    background-color: green;
+    color: white;
+    z-index: 9999;
+}
+@media screen and (max-width: 900px) {
+    .fd-left{
+        position: fixed;
+        left: -100%;
+        z-index: 998;
+        transition: left 0.8s ease-in-out;
+    }
+    .fd-right{
+        width: 100%;
+        padding-top: 50px;
+        position: relative;
+    }
+    .s-o{
+        display: block;
+        user-select: none;
+        z-index: 999;
+    }
+}

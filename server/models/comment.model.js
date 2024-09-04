@@ -1,30 +1,34 @@
 import mongoose from "mongoose";
 
+
 const commentSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User',
+        required: true
     },
-    commentContent: {
+    content: {
         type: String,
         required: true
     },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     }],
     dislikes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     }],
     blogId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Blog",
+        ref: 'Blog',
+        required: true
     },
     edited: {
         type: Boolean,
         default: false
     }
-}, [{timestamps: true}])
+}, {timestamps: true});
+
 
 export default mongoose.model('Comment', commentSchema);

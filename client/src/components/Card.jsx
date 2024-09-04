@@ -1,54 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import './Styles/Card.css';
+import React, { useEffect, useState } from 'react'
+import './Style/Card.css'
 import { Link } from 'react-router-dom';
 
-const Card = ({blog}) => {
-    const [date, setDate] = useState('');
+const Card = ({
+    blog
+}) => {
+    const [date, setDate] = useState(null);
     useEffect(() => {
-        setDate(formatDate(blog.createdAt));
+        const d = formatDate(blog.createdAt);
+        setDate(d);
     }, [])
-    const formatDate = (dateString) => {
+    function formatDate(dateString) {
         const date = new Date(dateString);
-
+      
         const day = date.getUTCDate();
-        const month = date.toLocaleString('en-US', {month: 'long'});
+        const month = date.toLocaleString('en-US', { month: 'long' });
         const year = date.getUTCFullYear();
-
-        const getDaySuffix= (day) => {
-            if(day>3 && day < 21) return 'th';
-            switch (day % 10){
-                case 1: return 'st';
-                case 2: return 'nd';
-                case 3: return 'rd';
-                default: return 'th';
-            }
+      
+        function getDaySuffix(day) {
+          if (day > 3 && day < 21) return 'th'; 
+          switch (day % 10) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+            default: return 'th';
+          }
         }
-
+      
         const formattedDate = `${day}${getDaySuffix(day)} ${month}, ${year}`;
-
+        
         return formattedDate;
-    }
-    const truncateText = (text, maxLength) => {
-        return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
-    }
+      }
+      const truncateTitle = (title, maxLength) => {
+        return title.length > maxLength ? `${title.substring(0, maxLength)}...` : title;
+    };
   return (
     <>
-      <div className="full-card">
-        <div className="fc-img-ctrl">
-            <img src={blog.image} alt="" />
-        </div>
-        <div className="fc-content">
-            <h4>{blog.title}</h4>
-            <p>{truncateText(blog.description, 80)}</p>
-            <div className="fc-info">
-                <p>{date}</p>
-                {/* <p>{new Date(blog.createdAt).toLocaleDateString()}</p> */}
-                <Link to = {`/${blog.cat.catName.toLowerCase()}/${blog.slug}`}><div className="fci-btn">Read More</div></Link>
+        <div className="full-card">
+            <div className="img-ctrl">
+                <img src={blog?.bImg} alt="" loading='lazy' />
+            </div>
+            <div className="fc-data">
+                <h3>{truncateTitle(blog.title, 50)}</h3>
+                <div className="rem-content">
+                    <p>Date: {date}</p>
+                    <Link to ={ `${blog?.cat.catName.toLowerCase() || "uncategoried"}/${blog?.slug}` }className="d-btn btn">Read More</Link>
+                </div>
             </div>
         </div>
-      </div>
     </>
-  );
+  )
 }
 
-export default Card;
+export default Card

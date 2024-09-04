@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Styles/ShowBlog.css';
+import './Style/ShowBlog.css';
 
 const ShowBlog = ({user}) => {
   

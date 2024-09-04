@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './Styles/ManageHome.css'
+import './Style/ManageHome.css';
 
-const ManageHome = ({handleAlert}) => {
+const ManageHome = ({
+  showAlert
+}) => {
   const [tabs, setTabs] = useState(3);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -46,11 +48,10 @@ const ManageHome = ({handleAlert}) => {
     })
     const resData = await res.json();
     if(res.ok){
-      handleAlert(resData.message);
-      setSelectedCategories([]);
-      setTabs(3);
+      showAlert(resData.message);
     }
   };
+
   return (
     <>
       <div className="full-manage-home">
@@ -77,7 +78,7 @@ const ManageHome = ({handleAlert}) => {
                 >
                   <option value="">Select a Category</option>
                   {categories.map((category) => (
-                    <option key={category._id} value={category._id}>
+                    <option key={category._id} value={category.catName}>
                       {category.catName}
                     </option>
                   ))}
@@ -90,6 +91,6 @@ const ManageHome = ({handleAlert}) => {
       </div>
     </>
   );
-}
+};
 
 export default ManageHome;

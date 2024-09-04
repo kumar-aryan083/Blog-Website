@@ -1,89 +1,98 @@
-import React, { useEffect, useState } from 'react';
-import './Styles/Navbar.css';
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import './Style/Navbar.css'
+import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { checkValidation } from '../utils/setValues';
+import { checkAdmin } from '../utils/SetValues';
 
-const Navbar = ({ user, showAlert, handleAlert, logout }) => {
-  const [link, setLink] = useState("");
+const Navbar = ({
+    user,
+    logout,
+    alert
+}) => {
+    const [result, setResult] = useState(null);
+    const nav = useNavigate();
 
-  const handleBgr = () => {
-    const rNav = document.querySelector('.right-nav');
-    rNav.style.left === "-100%" ? rNav.style.left = "0" : rNav.style.left = "-100%";
-  }
-
-  useEffect(() => {
-    if (showAlert !== null) {
-      const notify = () => toast(showAlert);
-      notify();
-      handleAlert(null);
+    useEffect(() => {
+        const verifyAdmin = async () => {
+            const adminCheck = await checkAdmin();
+            setResult(adminCheck.success);
+        };
+        verifyAdmin();
+    }, [nav]);
+    const handleClick = () => {
+        if (document.querySelector('.nav-right').style.left === '-100%') {
+            document.querySelector('.nav-right').style.left = '0'
+        } else {
+            document.querySelector('.nav-right').style.left = '-100%'
+        }
     }
-  }, [showAlert])
-
-  useEffect(() => {
-    showProfile();
-  }, [user])
-
-  const showProfile = async() => {
-    const c = await checkValidation();
-    if (c) {
-      // console.log(checkValidation());
-      setLink(`/admin/${user?.username}/profile`);
-    } else {
-      setLink(`/user/${user?.username}/profile`);
+    const handleLogout = () => {
+        handleClick;
+        logout("Succesfully Logged Out");
+        nav('/');
     }
-  }
-
-  return (
-    <>
-      <nav className="navbar">
-        <div className="left-nav">
-          <h2>Blog Website</h2>
-        </div>
-        <div className="right-nav">
-          <ul className="nav-ul">
-            <li className="nav-lists"><Link to="/">home</Link></li>
-            <li className="nav-lists"><Link to="/blog">blogs</Link></li>
-            <li className="nav-lists"><Link to="/">about</Link></li>
-            <li className="nav-lists"><Link to="/contact-us">contact us</Link></li>
-            <li className="nav-lists"><Link to="/">T & C</Link></li>
-          </ul>
-          {
-            !user ? (
-              <div className="btns">
-                <Link to="/user/login"><div className="btn-one"><i className="fa-solid fa-right-to-bracket"></i><span>login</span></div></Link>
-                <Link to="/user/register"><div className="btn-two"><i className="fa-solid fa-user-plus"></i><span>register</span></div></Link>
-              </div>
-            ) : (
-              <div className="btns">
-                <Link to={link}><div className="btn-one"><i className="fa-solid fa-user"></i><span>Profile</span></div></Link>
-                <div className="btn-two" onClick={() => { logout() }}><i className="fa-solid fa-right-from-bracket"></i><span>Logout</span></div>
-              </div>
-            )
-          }
-        </div>
-        <div className="bgr" onClick={handleBgr}>
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line"></div>
-        </div>
-      </nav>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition:Bounce
-      />
-    </>
-  );
+    const notify = () => toast(alert);
+    useEffect(() => {
+        if (alert) {
+            notify();
+        }
+    }, [alert])
+    return (
+        <>
+            <section className="nav-bar">
+                <div className="nav-left">
+                    <h1>TechBlog</h1>
+                </div>
+                <div className="nav-right">
+                    <ul className="navlist">
+                        <li className="listItems" onClick={handleClick}><Link to='/'>Home</Link></li>
+                        <li className="listItems" onClick={handleClick}><Link to='/blogs'>Blog</Link></li>
+                        <li className="listItems" onClick={handleClick}><Link to='/about'>About</Link></li>
+                        {!result && <li className="listItems" onClick={handleClick}><Link to='/contact-us'>Contact Us</Link></li>}
+                        <li className="listItems" onClick={handleClick}><Link to='/terms-and-condition'>T&C</Link></li>
+                    </ul>
+                    {
+                        !user ? (
+                            <div className="btns">
+                                <div className="btn l-btn" onClick={handleClick}><Link to='/user/login'>Login</Link></div>
+                                <div className="btn r-btn" onClick={handleClick}><Link to='/user/register'>Register</Link></div>
+                            </div>
+                        ) : (
+                            <div className="btns" onClick={handleClick}>
+                                <Link to={`/${result?`admin/${user.username}`:"user"}/profile`}><div className="profile-btn">
+                                    <i className="fa-solid fa-user"></i>
+                                    <p>Profile</p>
+                                </div></Link>
+                                <div className="profile-btn" onClick={handleLogout}>
+                                    <i className="fa-solid fa-right-from-bracket"></i>
+                                    <p>Logout</p>
+                                </div>
+                            </div>
+                        )
+                    }
+                </div>
+                <div className="bgr" onClick={handleClick}>
+                    <div className="line l-1"></div>
+                    <div className="line l-2"></div>
+                    <div className="line l-3"></div>
+                </div>
+            </section>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition:Bounce
+            />
+        </>
+    )
 }
 
-export default Navbar;
+export default Navbar

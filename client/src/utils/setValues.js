@@ -1,34 +1,27 @@
-export const setLocal = (user, token) => {
-    try {
-        const u = JSON.stringify(user);
-        localStorage.setItem('user', u);
-        localStorage.setItem('token', token);
-    } catch (error) {
-        console.log(error);
-    }
+export const setUser = (user, token) => {
+    localStorage.setItem('user', JSON.stringify(user)); 
+    localStorage.setItem('token', token); 
+};
+
+export const getUser = () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user): null;
 }
 
-export const handleLogout = () => {
-    try {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-    } catch (error) {
-        console.log(error)
-    }
+export const userLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('admin');
 }
 
-export const checkValidation = async()=>{
-    try {
-        const res = await fetch("/api/admin/validate",{
-            method: "GET",
-            headers:{
-                "Content-Type": "application/json",
-                token: localStorage.getItem("token")
-            }
-        });
-        const data = await res.json();
-        return data.success;
-    } catch (error) {
-        console.log(error);
-    }
+export const checkAdmin = async () => {
+    const res = await fetch(`/api/admin/validate`, {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            token: localStorage.getItem('token')
+        }
+    })
+    const resData = await res.json();
+    return await resData;
 }

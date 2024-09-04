@@ -1,50 +1,52 @@
 import mongoose from "mongoose";
 
+
 const blogSchema = mongoose.Schema({
-    title: {
+    adminId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin', 
+        require: true
+    },
+    title: { 
         type: String,
         required: true
     },
     description: {
-        type: String,
-        required: true
+        type: String, 
+        required: true 
     },
-    keyword: {
+    keyword: [{
+        type: String
+    }],
+    bImg: {
         type: String,
         required: true
     },
     slug: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
-    image: {
-        type: String,
+    cat: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
     },
     content: {
         type: String,
         required: true
     },
-    cat: {
+    likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category"
-    },
-    likes:[{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     }],
-    dislikes:[{
+    dislikes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     }],
-    comments: [{
+    commentId: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment"
-    }],
-    adminId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin"
-    }
-}, {timestamps: true})
+        ref: 'Comment'
+    }]
+}, {timestamps: true});
+
 
 export default mongoose.model('Blog', blogSchema);
