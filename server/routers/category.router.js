@@ -5,9 +5,9 @@ const router = express.Router();
 
 router.get('/all-category', allCat)
 router.get('/:id', catById);
-router.get('/:catName', catByName);
+router.get('/byname/:catName', catByName);
 router.post('/add-new-category',verifyToken, addNewCat);
 router.delete('/delete-category/:id',verifyToken, deleteCat);
-router.put('/update-category/:id',verifyToken, updateCat);
+router.put('/update-category/:id',verifyToken, updateCat); 
 
 export default router;  

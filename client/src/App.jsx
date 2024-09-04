@@ -12,7 +12,9 @@ import Contact from './pages/Contact';
 import UserRegister from './pages/user/userRegister';
 import UserLogin from './pages/user/userLogin';
 import Postpage from './pages/Postpage';
-import Category from './pages/Category';
+import Category from './pages/Category'; 
+import ErrorPage from './pages/ErrorPage';
+import Blog from './pages/Blog';
 
 const App = () => {
   const [user, setUser] = useState(() => {
@@ -67,7 +69,7 @@ const App = () => {
           <Route
             path='/admin/:username/profile'
             element={
-              <Profile />
+              <Profile user= {user}/>
             }
           />
           <Route
@@ -91,7 +93,7 @@ const App = () => {
           <Route
             path='/user/:username/profile'
             element={
-              <Profile />
+              <Profile user = {user}/>
             }
           />
           <Route
@@ -107,6 +109,14 @@ const App = () => {
             path='/about'
             element={
               <About
+              />
+            }
+          />
+          <Route
+            path='/blog'
+            element={
+              <Blog
+              handleAlert = {handleAlert}
               />
             }
           />
@@ -131,7 +141,7 @@ const App = () => {
           <Route
             path='/*'
             element={
-              <Home />
+              <ErrorPage />
             }
           />
         </Routes>

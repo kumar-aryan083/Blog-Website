@@ -105,7 +105,8 @@ export const catById = async (req, res) => {
 }
 export const catByName = async (req, res) => {
     try {
-        const cat = await categoryModel.findOne({catName: req.params.catName});
+        const a = `${req.params.catName.slice(0,1).toUpperCase()}${req.params.catName.slice(1)}`;
+        const cat = await categoryModel.findOne({catName: a});
         const fullCat = await cat.populate({
             path: 'blogs',
             populate: [

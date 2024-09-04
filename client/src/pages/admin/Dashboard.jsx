@@ -11,7 +11,9 @@ import ManageHome from '../../components/ManageHome';
 import AllBlogs from '../../components/AllBlogs';
 
 const Dashboard = ({ handleAlert, user }) => {
-    const [number, setNumber] = useState("1");
+    const [number, setNumber] = useState(() => {
+        return localStorage.getItem('page') || "1";
+    });
     const [res, setRes] = useState(false);
     const nav = useNavigate();
     
@@ -26,8 +28,8 @@ const Dashboard = ({ handleAlert, user }) => {
         }
         verifyAdmin();
     }, [user])
-
     const handleContent = (pageNo) => {
+        localStorage.setItem('page', pageNo);
         setNumber(pageNo);
     };
 
@@ -50,7 +52,7 @@ const Dashboard = ({ handleAlert, user }) => {
             case "6":
                 return <ContactForms handleAlert={handleAlert} />
             default:
-                return <div>Default Content</div>;
+                return <DashHome />;
         }
     };
 

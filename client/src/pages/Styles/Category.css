@@ -1,0 +1,43 @@
+.full-cat-wrapper{
+    display: flex;
+    max-width: 1500px;
+    width: 95%;
+    margin: 10px auto;
+    justify-content: center;
+    gap: 20px;
+}
+.cat-left-side{
+    width: 65%;
+}
+.cat-right-side{
+    width: 25%;
+}
+.card-holder{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    font-weight: bold;
+    background-color: #ddd;
+}
+@media screen and (max-width: 900px) {
+    .full-cat-wrapper{
+        flex-direction: column;
+    }
+    .cat-left-side, .cat-right-side{
+        width: 100%;
+    }
+}

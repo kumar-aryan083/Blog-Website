@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import './Styles/Postpage.css';
+import { checkValidation } from '../utils/setValues';
 
 const Postpage = ({ handleAlert }) => {
     const [likes, setLikes] = useState(0);
@@ -8,6 +9,7 @@ const Postpage = ({ handleAlert }) => {
     const [blog, setBlog] = useState(null);
     const [comments, setComment] = useState([]);
     const { slug } = useParams();
+    const [isAdmin, setAdmin] = useState(false);
     const [loading, setLoading] = useState(false);
     const [cat, setCat] = useState(null);
     const [com, setCom] = useState({
@@ -48,6 +50,8 @@ const Postpage = ({ handleAlert }) => {
                 setLoading(false);
                 console.log(data.categories);
             }
+            const admin = await checkValidation();
+            setAdmin(admin);
         }
         getCat();
         document.documentElement.scrollTop = 0;
@@ -204,10 +208,16 @@ const Postpage = ({ handleAlert }) => {
                                 )}
                             </div>
                         </div>
+                       {isAdmin ? (
+                        <>
+                            <p style={{padding: "20px 10px"}}>Login as a user to comment on this post...</p>
+                        </>
+                       ) : (
                         <form onSubmit={handleSubmit}>
-                            <input type="text" name="commentContent" id="commentContent" value={com.commentContent} onChange={handleComment} placeholder='Add a comment' />
-                            <input type="submit" value="Add" />
-                        </form>
+                        <input type="text" name="commentContent" id="commentContent" value={com.commentContent} onChange={handleComment} placeholder='Add a comment' />
+                        <input type="submit" value="Add" />
+                    </form>
+                       )}
                     </div>
                 </div>
                 <div className="pp-right">

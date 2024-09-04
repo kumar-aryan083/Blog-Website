@@ -16,6 +16,9 @@ html, body{
 .full-body-wrapp{
   padding-top: 73px;
 }
+a{
+  text-decoration: none !important;
+}
 @media screen and (max-width: 850px) {
   .full-body-wrapp{
     padding-top: 85px;

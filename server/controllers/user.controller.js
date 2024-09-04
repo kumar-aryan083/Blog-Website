@@ -5,7 +5,6 @@ import blogModel from "../models/blog.model.js";
 import contactModel from "../models/contact.model.js";
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
-import { populate } from "dotenv";
 
 export const login = async (req, res) => {
     try {

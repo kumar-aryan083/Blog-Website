@@ -1,6 +1,7 @@
 import blogModel from '../models/blog.model.js';
 
 export const allBlogs = async(req, res)=>{
+    console.log('hit');
     const blogs = await blogModel.find()
     .populate('adminId')
     .populate('cat')
