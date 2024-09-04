@@ -116,14 +116,30 @@ export const register = async (req, res) => {
                 to: req.body.email,
                 cc: '',
                 subject: "OTP For Registaration on TechBlog",
-                html: `<div style="border-radius: 20px; padding: 20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; background-color: rgb(230, 230, 230);">
-                            <h1>Thanks for Registering with us.</h1>
-                            <p><strong>Note</strong>: Please don't share this otp with anyone</p>
-                            <h2 style="width: fit-content; background-color: white; padding: 20px 50px; margin: 100px auto; border-radius: 10px;">OTP:${otp}</h2>
-                            <h4>Best Regards</h4>
-                            <h5>Aryan Srivastava</h5>
-                            <a href="mailto:connect@codesofrohan.com">connect@codesofrohan.com</a>
-                        </div>`,
+                html: `<div style="margin: 0 auto; width: 95%; max-width: 800px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+        <div style="border: 1px solid rgba(0, 0, 0, 0.138); padding:0 20px;">
+
+            <div style="background-color: rgb(84, 84, 250);">
+                <h1 style=" color: white;padding: 10px 20px;">Automatically Generated Email (TechBlogs)</h1>
+            </div>
+            <div>
+                <p>Thanks for registering with us we are the leading Blogging website.</p>
+                <p>We are delighted to see you onboard.</p>
+                <h3>Things to remember:</h3>
+                <ul>
+                    <li>Don't do non-sense post.</li>
+                    <li>Always be attentive while using admin pannel.</li>
+                </ul>
+                <h3>Repocursions</h3>
+                    <ul>
+                        <li>You will be Responsible for everything you will do.</li>
+                        <li>You will be penalize for any miss-conducts.</li>
+                    </ul>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus quasi pariatur, iure, dolor culpa porro sequi architecto reprehenderit totam maiores fugit maxime, odio libero quas? Nisi sapiente totam quam quia!</p>
+                    <p>Your One Time Password is: <strong>${otp}</strong></p>
+            </div>
+        </div>
+    </div>`,
             };
 
             const info = await transporter.sendMail(mailOptions);
@@ -369,7 +385,7 @@ export const verifyOtp = async (req, res) => {
     }
 }
 export const getBlogById = async (req, res) => {
-    const blog = await blogModel.findOne({_id: req.params.id})
+    const blog = await blogModel.findOne({ _id: req.params.id })
     res.json({
         success: true,
         message: 'Data fetched',
