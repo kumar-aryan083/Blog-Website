@@ -72,7 +72,7 @@ const BlogEditor = ({ showAlert, user }) => {
     };
 
     const getCategory = async () => {
-        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/api/category/all-category', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const BlogEditor = ({ showAlert, user }) => {
 
         console.log('Blog Data:', JSON.stringify(blogData, null, 2));
 
-        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/api/admin/add-blog', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/admin/add-blog', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
