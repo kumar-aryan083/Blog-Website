@@ -14,7 +14,7 @@ import homeRouter from './router/home.router.js'
 env.config();
 
 const corsAllow = {
-    origin: 'http://localhost:5173',
+    origin: 'https://aryandevs-webblog.netlify.app',
     method: 'POST, GET, PUT, PATCH, HEAD',
     credential: true
 }

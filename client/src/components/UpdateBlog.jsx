@@ -77,7 +77,7 @@ const UpdateBlog = ({ showAlert, user }) => {
     };
 
     const getCategory = async () => {
-        const res = await fetch('/api/category/all-category', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const UpdateBlog = ({ showAlert, user }) => {
 
     const fetchBlogData = async () => {
         try {
-            const res = await fetch(`/api/admin/blog/${id}`, {
+            const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/blog/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const UpdateBlog = ({ showAlert, user }) => {
 
         console.log('Blog Data:', JSON.stringify(blogData, null, 2));
 
-        const res = await fetch(`/api/admin/update-blog/${id}`, {
+        const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/update-blog/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

@@ -16,7 +16,7 @@ const AllBlog = ({ user, showAlert }) => {
     useEffect(() => {
         const getCat = async () => {
             setLoading(true);
-            const res = await fetch('/api/category/all-category', {
+            const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const AllBlog = ({ user, showAlert }) => {
     const handleCatDel = async (id) => {
         try {
             setDeleting(true);
-            const res = await fetch(`/api/admin/delete-blog/${id}`, {
+            const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/delete-blog/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const AllBlog = ({ user, showAlert }) => {
         try {
             setSelectedBlog(blog);
             setLoading(true);
-            const res = await fetch(`/api/admin/${blog._id}/comments`, {
+            const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/${blog._id}/comments`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const AllBlog = ({ user, showAlert }) => {
 
     const handleCommentDel = async (commentId, userId) => {
         try {
-            const res = await fetch(`/api/admin/delete-comment/${commentId}/${userId}`, {
+            const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/delete-comment/${commentId}/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './Style/Dashboard.css'
-import DashNav from '../../Components/DashNav'
-import FormCard from '../../Components/FormCard'
+import DashNav from '../../components/DashNav'
+import FormCard from '../../components/FormCard'
 
 const ContactForm = ({
   showAlert

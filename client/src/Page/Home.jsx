@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Recent from '../Components/Recent';
-import Category from '../Components/Category';
+import Recent from '../components/Recent';
+import Category from '../components/Category';
 import './Style/Home.css';
 import Loading from './Loading';
 
@@ -12,7 +12,7 @@ const Home = ({ user }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch('/api/home/get', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/home/get', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'

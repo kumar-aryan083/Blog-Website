@@ -13,7 +13,7 @@ const CategoryDash = ({
     useEffect(() => {
         const getCat = async () => {
             setLoading(true);
-            const res = await fetch('/api/category/all-category', {
+            const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const CategoryDash = ({
     }
     const handleCatSubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch('/api/category/add-new-category', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/add-new-category', {
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',
@@ -54,7 +54,7 @@ const CategoryDash = ({
         }
     }
     const handleCatDel = async (id) => {
-        const res = await fetch(`/api/category/delete-category/${id}`, {
+        const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/category/delete-category/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -53,7 +53,7 @@ const Register = ({
       });
     } else {
       const { confirmPassword, ...others } = formData
-      const res = await fetch('/api/admin/register', {
+      const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/admin/register', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ const Register = ({
   };
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch(`/api/admin/verify-otp/${id}/${otp}`, {
+    const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/verify-otp/${id}/${otp}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

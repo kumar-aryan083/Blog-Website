@@ -22,7 +22,7 @@ const Category = ({ cat }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch(`/api/category/${cat}`, {
+      const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/category/${cat}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'

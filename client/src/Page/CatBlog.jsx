@@ -13,7 +13,7 @@ const CatBlog = ({ showAlert }) => {
   useEffect(() => {
     const getCat = async () => {
       try {
-        const res = await fetch('/api/category/all-category', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ return modifiedString;
     const getBlogsByCategory = async () => {
       try {
         const category = handleParams(cat);
-        const res = await fetch(`/api/category/${category}`, {
+        const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/category/${category}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

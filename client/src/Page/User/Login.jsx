@@ -24,7 +24,7 @@ const Login = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      const res = await fetch('/api/user/login', {
+      const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/user/login', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'

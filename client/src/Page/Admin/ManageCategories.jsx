@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './Style/Dashboard.css'
-import DashNav from '../../Components/DashNav'
-import CategoryDash from '../../Components/CategoryDash'
+import DashNav from '../../components/DashNav'
+import CategoryDash from '../../components/CategoryDash'
 const ManageCategories = ({
   user,
   showAlert

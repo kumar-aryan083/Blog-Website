@@ -14,7 +14,7 @@ const ManageHome = ({
 
   useEffect(() => {
     const getCategories = async () => {
-      const res = await fetch('/api/category/all-category', {
+      const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const ManageHome = ({
     e.preventDefault();
     const send = JSON.stringify(selectedCategories);
     console.log('Selected Categories:', send);
-    const res = await fetch('/api/home/edit', {
+    const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/home/edit', {
       method: 'POST',
       headers: {
         'Content-Type':'application/json',

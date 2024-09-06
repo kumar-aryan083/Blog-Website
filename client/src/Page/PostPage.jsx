@@ -21,7 +21,7 @@ const PostPage = ({
   useEffect(() => {
     const getBlog = async () => {
       try {
-        const res = await fetch('/api/com/all-blogs', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/com/all-blogs', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const PostPage = ({
   useEffect(() => {
     const getCat = async () => {
       try {
-        const res = await fetch('/api/category/all-category', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/category/all-category', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ const PostPage = ({
     const getData = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/user/${slug}`, {
+        const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/user/${slug}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ const PostPage = ({
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-        const res = await fetch('/api/user/add-comment', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/user/add-comment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ const PostPage = ({
 };
 
   const handleBlogDislike = async () => {
-    const res = await fetch(`/api/user/dislike-blog/${commentData.blogId}`, {
+    const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/user/dislike-blog/${commentData.blogId}`, {
       method: 'GET',
       headers: {
         'Content-Type':'application/json',
@@ -171,7 +171,7 @@ const PostPage = ({
     }
   }
   const handleBlogLike = async () => {
-    const res = await fetch(`/api/user/like-blog/${commentData.blogId}`, {
+    const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/user/like-blog/${commentData.blogId}`, {
       method: 'GET',
       headers: {
         'Content-Type':'application/json',
@@ -187,7 +187,7 @@ const PostPage = ({
     }
   }
   const handleCommentLike = async (id) => {
-    const res = await fetch(`/api/user/like-comment/${id}`, {
+    const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/user/like-comment/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ const PostPage = ({
   };
 
   const handleCommentDislike = async (id) => {
-    const res = await fetch(`/api/user/dislike-comment/${id}`, {
+    const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/user/dislike-comment/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Style/Dashboard.css';
-import DashNav from '../../Components/DashNav';
-import DashContent from '../../Components/DashContent';
+import DashNav from '../../components/DashNav';
+import DashContent from '../../components/DashContent';
 import { useNavigate } from 'react-router-dom';
 import { checkAdmin } from '../../utils/SetValues';
 

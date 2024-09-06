@@ -37,7 +37,7 @@ const FormCard = ({
     
     const getComment = async () => {
         setLoading(true);
-        const res = await fetch('/api/admin/get-form', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/admin/get-form', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const FormCard = ({
     };
 
     const handleFormDelete = async (id) => {
-        const res = await fetch(`/api/admin/delete-form/${id}`, {
+        const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/delete-form/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const FormCard = ({
 
     const handleMailSubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch('/api/admin/send-mail', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/admin/send-mail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

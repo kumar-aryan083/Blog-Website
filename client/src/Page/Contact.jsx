@@ -52,7 +52,7 @@ const Contact = ({ user, showAlert }) => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch ('/api/com/submit-form', {
+    const res = await fetch ('https://webblogserver-production-46a4.up.railway.app/api/com/submit-form', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

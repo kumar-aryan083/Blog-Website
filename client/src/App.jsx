@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Navbar from './Components/Navbar'
+import Navbar from './components/Navbar'
 import Home from './Page/Home'
 import About from './Page/About'
 import Contact from './Page/Contact'
@@ -22,7 +22,8 @@ import ErrorPage from './Page/ErrorPage'
 import PostPage from './Page/PostPage'
 import CatBlog from './Page/CatBlog'
 import HomeManager from './Page/Admin/HomeManager'
-import UpdateBlog from './Components/UpdateBlog'
+import UpdateBlog from './components/UpdateBlog'
+
 
 
 const App = () => {

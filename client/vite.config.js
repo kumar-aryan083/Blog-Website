@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '/api': {
-          target: 'http://localhost:9000',
+          target: 'https://webblogserver-production-46a4.up.railway.app',
           // target: 'https://04projectblogging-production.up.railway.app',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '/api'),

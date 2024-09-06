@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './Style/Dashboard.css'
-import DashNav from '../../Components/DashNav'
-import AllBlog from '../../Components/AllBlog'
+import DashNav from '../../components/DashNav'
+import AllBlog from '../../components/AllBlog'
 
 const ManageBlog = ({
   user,

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Style/Dashboard.css';
 import './Style/HomeManager.css';
-import DashNav from '../../Components/DashNav';
+import DashNav from '../../components/DashNav';
 import { useNavigate } from 'react-router-dom';
 import { checkAdmin } from '../../utils/SetValues';
-import ManageHome from '../../Components/ManageHome';
+import ManageHome from '../../components/ManageHome';
 
 const HomeManager = ({ showAlert }) => {
   const [result, setResult] = useState(null);

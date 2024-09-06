@@ -48,7 +48,7 @@ const Register = ({
       });
     } else {
       const { confirmPassword, ...others } = formData
-      const res = await fetch('/api/user/register', {
+      const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/user/register', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'

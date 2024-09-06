@@ -15,7 +15,7 @@ export const userLogout = () => {
 }
 
 export const checkAdmin = async () => {
-    const res = await fetch(`/api/admin/validate`, {
+    const res = await fetch(`https://webblogserver-production-46a4.up.railway.app/api/admin/validate`, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',

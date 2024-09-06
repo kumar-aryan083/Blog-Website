@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { checkAdmin } from '../../utils/SetValues';
 import { useNavigate } from 'react-router-dom';
-import ProfileCard from '../../Components/ProfileCard';
+import ProfileCard from '../../components/ProfileCard';
 import './Style/Profile.css'
-import ShowBlog from '../../Components/ShowBlog';
+import ShowBlog from '../../components/ShowBlog';
 
 const Profile = ({
   user

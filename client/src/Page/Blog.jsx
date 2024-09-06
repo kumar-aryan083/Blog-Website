@@ -11,7 +11,7 @@ const Blog = ({ showAlert }) => {
     const getCat = async () => {
       try {
         setLoading(true);
-        const res = await fetch('/api/com/all-blogs', {
+        const res = await fetch('https://webblogserver-production-46a4.up.railway.app/api/com/all-blogs', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
